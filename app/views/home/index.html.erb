@@ -1,0 +1,5 @@
+<h1> This is a basic landing page!</h1>
+
+<% if user_signed_in? %>
+  <h3>Welcome <%=current_user.name%></h3>
+<% end %>
