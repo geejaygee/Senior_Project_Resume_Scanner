@@ -1,0 +1,22 @@
+<%= form_for @resume do |f| %>
+  <% if @resume.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@resume.errors.count, "error") %> prevented this resume from being uploaded: </h2>
+
+        <ul>
+	<% @resume.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :filename %>
+    <%= f.text_field :filename %>
+    <%= f.label :attachment%>
+    <%= f.file_field :attachment %>
+  </div>
+  <div class="field">
+    <%= f.submit %>
+  </div>
+<% end %>

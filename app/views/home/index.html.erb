@@ -2,4 +2,15 @@
 
 <% if user_signed_in? %>
   <h3>Welcome <%=current_user.name%></h3>
+  <% if current_user.resume_document %>
+    <%= current_user.resume_document.filename %>
+    <br>
+    <%= current_user.resume_document.attachment %>
+    <br>
+    <%= $client.post('viewdocument', {:mode=> 'document', :file=>open('public' + current_user.resume_document.attachment_url,'r')}) %>
+    <br>
+    <%= link_to "Delete", current_user.resume_document, method: :delete, confirm: "Are you sure?" %>
+  <% else %>
+    <%= button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method => :get %>
+  <% end %>
 <% end %>

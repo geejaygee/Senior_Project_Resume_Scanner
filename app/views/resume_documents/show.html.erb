@@ -1,0 +1,13 @@
+<h1> <%= @user.name %> </h1>
+<br>
+<% if @resume %>
+  <%= @resume.filename %>
+  <%= @resume.attachment %>
+  <br>
+  <%= 'public' + @resume.attachment_url %>
+  <br>
+  <%= $client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @resume.attachment_url,'r')}) %>
+ <% else %>
+  <%= render 'form' %>
+<% end %>
+<%= link_to "Home", root_path, :method=>:get %>

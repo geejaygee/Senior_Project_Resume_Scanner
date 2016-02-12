@@ -1,5 +1,8 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  
+  #Havenondemand client
+  $client = HODClient.new('7aa5f5da-7ff0-4dbd-af86-200b275ffbf2', 'v1')
 
   # Code is not reloaded between requests.
   config.cache_classes = true
