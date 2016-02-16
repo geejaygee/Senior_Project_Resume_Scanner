@@ -14,3 +14,11 @@
     <%= button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method => :get %>
   <% end %>
 <% end %>
+<% if employer_signed_in? %>
+  <h3> Welcome <%= current_employer.companyName %> Company </h3>
+  <%= current_employer.email %>
+  <%= button_to 'Post a Job', new_job_path, :class=>"button", :method => :get %>
+<% end %>
+
+<br>
+<%= button_to 'View Jobs', jobs_path, :class=>"button", :method => :get %>

@@ -11,12 +11,18 @@ class ResumeDocumentsController < ApplicationController
   end
 
   def create
+    if params[:attachment].blank?
+      flash[:error] = 'File cannot be empty.'
+      redirect_to new_resume_document_path
+    else
     @resume=ResumeDocument.new(resume_params)
+    @resume.filename=File.basename(@resume.attachment_url)
     @resume.user=current_user
     if @resume.save
       redirect_to root_path, notice: 'Resume was successfully uploaded.'
     else
       render :new
+    end
     end
   end
 

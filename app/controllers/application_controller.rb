@@ -4,6 +4,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   protected
+#  def devise_parameter_sanitizer
+ #   if resource_class == Employer
+ #     Employer::ParameterSanitizer.new(Employer, :employer, params)
+ #   else
+  #    super
+ #   end
+#  end
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up)<<:name
     devise_parameter_sanitizer.for(:account_update)<<:name
