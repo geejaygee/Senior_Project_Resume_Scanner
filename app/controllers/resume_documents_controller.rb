@@ -11,9 +11,8 @@ class ResumeDocumentsController < ApplicationController
   end
 
   def create
-    if params[:attachment].blank?
-      flash[:error] = 'File cannot be empty.'
-      redirect_to new_resume_document_path
+    if (params[:resume_document][:attachment]).blank?
+      redirect_to new_resume_document_path, notice: 'Resume cannot be blank.'
     else
     @resume=ResumeDocument.new(resume_params)
     @resume.filename=File.basename(@resume.attachment_url)

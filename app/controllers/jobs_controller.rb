@@ -15,9 +15,8 @@ class JobsController < ApplicationController
   end
 
   def create
-    if params[:attachment].blank?
-      flash[:error] = 'Job cannot be blank'
-      redirect_to new_job_path
+    if params[:job][:attachment].blank?
+      redirect_to new_job_path, notice: 'Job listing file cannot be blank.'
     else
       @job=Job.new(job_params)
       @job.filename=File.basename(@job.attachment_url)
