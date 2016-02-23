@@ -1,0 +1,20 @@
+<h1> All Jobs </h1>
+<% if @jobs.size < 1 %>
+Sorry, currently no jobs posted 
+<% else %>
+  <% @employers.each do |employer| %>
+    <% employer.jobs.each do |job| %>
+      <%=job.position %> <br>
+      <%=employer.companyName %>
+      <br>
+      <%=job.filename %>
+      <br>
+      <%= job.attachment %>
+      <br>
+---------------------------------------------------
+    <br>
+    <% end %>
+    <br>
+  <% end %>
+<% end %>
+<%= button_to 'Home', root_path, :class=>"button", :method => :get %>

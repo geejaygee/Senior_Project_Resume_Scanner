@@ -1,9 +1,8 @@
 class ResumeDocumentsController < ApplicationController
-  load "#{Rails.root}/lib/filename_generator.rb"
-  before_action :set_resume, only: [ :show, :edit, :update, :destroy]
+  before_action :set_resume, only: [ :edit, :update, :destroy]
 
   def show
-    @user=User.find(@resume.user_id)
+    
   end
 
   def new

@@ -1,0 +1,17 @@
+<h1> My Jobs </h1>
+<% if current_employer.jobs.size >= 1 %>
+    <% current_employer.jobs.each_with_index do |job, index| %>
+      <%= link_to job.position, job, :method=>:get %> 
+      <br>
+      <%= job.filename %>
+      <br>
+      <%= job.attachment %>
+      <br>
+---------------------------------------------------
+    <br>
+    <% end %>
+<% else %>
+  Post a Job Now!
+  <%= button_to 'Post a Job', new_job_path, :class=>"button", :method=>:get %>
+<% end %>
+<%= button_to 'Home', root_path, :class=>"button", :method => :get %>

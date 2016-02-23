@@ -1,7 +1,12 @@
 Rails.application.routes.draw do  
   devise_for :employers, :controllers => {:registrations => "employers/registrations"}
   devise_for :users
-  resources :jobs
+  resources :jobs do
+    collection do
+      get 'my_index'
+      get 'all_index'
+    end
+  end
   resources :resume_documents
   root "home#index"
   # The priority is based upon order of creation: first created -> highest priority.

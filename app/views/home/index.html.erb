@@ -3,13 +3,7 @@
 <% if user_signed_in? %>
   <h3>Welcome <%=current_user.name%></h3>
   <% if current_user.resume_document %>
-    <%= current_user.resume_document.filename %>
-    <br>
-    <%= current_user.resume_document.attachment %>
-    <br>
-    <%= $client.post('viewdocument', {:mode=> 'document', :file=>open('public' + current_user.resume_document.attachment_url,'r')}) %>
-    <br>
-    <%= link_to "Delete", current_user.resume_document, method: :delete, confirm: "Are you sure?" %>
+    <%= button_to 'View Resume', resume_document_path(current_user), :class=>"button", :method=>:get %>
   <% else %>
     <%= button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method => :get %>
   <% end %>
@@ -18,7 +12,10 @@
   <h3> Welcome <%= current_employer.companyName %> Company </h3>
   <%= current_employer.email %>
   <%= button_to 'Post a Job', new_job_path, :class=>"button", :method => :get %>
+  <% if current_employer.jobs %>
+    <%= button_to 'View My Job Postings', my_index_jobs_path(current_employer), :class=>"button", :method=>:get %>
+  <% end %>
 <% end %>
 
 <br>
-<%= button_to 'View Jobs', jobs_path, :class=>"button", :method => :get %>
+<%= button_to 'View Jobs', all_index_jobs_path, :class=>"button", :method => :get %>

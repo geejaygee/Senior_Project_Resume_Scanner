@@ -1,0 +1,17 @@
+<br>
+  <% if @job %>
+    Your Uploaded Job: <%= @job.filename %>
+    <br>
+    <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
+    <div align: center>
+    <iframe srcdoc="<%=r.json%>" width="800" height="600" style="border:5px dotted green"></iframe>
+    </div>
+    <br>
+    <%= button_to "Delete", @job, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+  <% else %>
+    <%= button_to 'Create a Job Posting', new_job_path, :class=>"button", :method => :get %>
+  <% end %>
+  <br>
+<%= button_to 'Home', root_path, :class=>"button", :method => :get %>
+
+

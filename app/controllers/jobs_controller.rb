@@ -2,12 +2,16 @@ class JobsController < ApplicationController
   load "#{Rails.root}/lib/filename_generator.rb"
   before_action :set_job, only: [ :show, :edit, :update, :destroy]
 
-  def index
+  def all_index
     @employers = Employer.all
     @jobs = Job.all
   end
   def show
     @employer=Employer.find(@job.employer_id)
+  end
+
+  def my_index
+    @jobs=Job.joins(:employer).where(:employer_id => params[:id])
   end
 
   def new
