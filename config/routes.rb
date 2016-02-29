@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :employers, :controllers => {:registrations => "employers/registrations"}
   devise_for :users
   resources :jobs do
+   resources :job_applications, :shallow=>true
     collection do
       get 'my_index'
       get 'all_index'

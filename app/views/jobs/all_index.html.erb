@@ -4,12 +4,10 @@ Sorry, currently no jobs posted
 <% else %>
   <% @employers.each do |employer| %>
     <% employer.jobs.each do |job| %>
-      <%=job.position %> <br>
+      <%= link_to job.position, job, :method=>:get %>
+      <br>
       <%=employer.companyName %>
       <br>
-      <%=job.filename %>
-      <br>
-      <%= job.attachment %>
       <br>
 ---------------------------------------------------
     <br>

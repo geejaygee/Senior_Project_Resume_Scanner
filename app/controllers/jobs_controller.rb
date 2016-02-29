@@ -1,5 +1,4 @@
 class JobsController < ApplicationController
-  load "#{Rails.root}/lib/filename_generator.rb"
   before_action :set_job, only: [ :show, :edit, :update, :destroy]
 
   def all_index
@@ -8,6 +7,17 @@ class JobsController < ApplicationController
   end
   def show
     @employer=Employer.find(@job.employer_id)
+    @applied=false
+    if user_signed_in?
+      @user=current_user
+      @applications=Job_Application.find(@job.job_id)
+      @application.each do |app|
+        if app.user_id==current_user
+          @applied=true
+        end
+      end
+      @job_application=@user.job_applications.new
+     end
   end
 
   def my_index
@@ -16,6 +26,7 @@ class JobsController < ApplicationController
 
   def new
     @job=Job.new
+    @job.job_applications.new
   end
 
   def create

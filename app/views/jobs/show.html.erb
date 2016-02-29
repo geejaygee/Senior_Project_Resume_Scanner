@@ -1,13 +1,22 @@
 <br>
   <% if @job %>
-    Your Uploaded Job: <%= @job.filename %>
+    <h1><%= @job.position %></h1>
+    <% if user_signed_in? %>
+      <% if current_user.resume_document %>
+        <%= render 'job_applications/form' %>
+      <% else %>
+        Upload a Resume to Apply! <%=button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method=>:get %>
+      <% end %>
+    <% end %>
     <br>
     <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
     <div align: center>
     <iframe srcdoc="<%=r.json%>" width="800" height="600" style="border:5px dotted green"></iframe>
     </div>
     <br>
-    <%= button_to "Delete", @job, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+    <% if @job.employer==current_employer %>
+      <%= button_to "Delete", @job, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+    <% end %>  
   <% else %>
     <%= button_to 'Create a Job Posting', new_job_path, :class=>"button", :method => :get %>
   <% end %>

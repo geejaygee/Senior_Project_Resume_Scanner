@@ -1,0 +1,20 @@
+<%= form_for([ @job, @job_application]) do |x| %>
+  <% if @job_application.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tag.errors.count, "error") %> prevented this tag from being added: </h2>
+
+      <ul>
+      <% @image_user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<%= x.hidden_field :user_id, value: current_user.id %>
+<%= x.hidden_field :job_id, value: @job.id %>
+<div class="actions">
+  <%= x.submit 'Apply' %>
+</div>
+<% end %>
+
