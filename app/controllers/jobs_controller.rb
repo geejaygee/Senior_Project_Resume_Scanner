@@ -10,9 +10,9 @@ class JobsController < ApplicationController
     @applied=false
     if user_signed_in?
       @user=current_user
-      @applications=Job_Application.find(@job.job_id)
-      @application.each do |app|
-        if app.user_id==current_user
+      @applications=current_user.job_applications.map{|job_application| job_application.job} 
+      @applications.each do |app|
+        if app.id==@job.id
           @applied=true
         end
       end

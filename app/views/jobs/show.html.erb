@@ -3,7 +3,11 @@
     <h1><%= @job.position %></h1>
     <% if user_signed_in? %>
       <% if current_user.resume_document %>
+        <% if @applied==false %>
         <%= render 'job_applications/form' %>
+        <% else %>
+          You have already applied to this position.
+        <% end %>
       <% else %>
         Upload a Resume to Apply! <%=button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method=>:get %>
       <% end %>
