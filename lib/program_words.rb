@@ -10,6 +10,10 @@ def programing_words
 "python"=>/\b(?i)python\b/,
 "php"=>/\b(?i)php\b/,
 "perl"=>/\b(?i)perl\b/, 
+"delphi"=>/\b(?i)DELPHI\b/,
+"smalltalk"=>/\b(?i)SMALLTALK\b/,
+"lisp"=>/\b(?i)LISP\b/,
+"swift"=>/\b(?i)SWIFT\b/,
 "visual basic .net"=>/\b(?i)((visual\sbasic\s\.net)| \bvisual\sbasic\.net)/,
 "visual basic"=>/\b(?i)(visual\sbasic)/,
 "html"=>/\b(?i)HTML\b/,
@@ -17,6 +21,16 @@ def programing_words
 "mysql"=>/\b(?i)MYSQL\b/,
 "ruby on rails"=>/\b(?i)(RUBY ON RAILS)|(ROR)\b/,
 "sql"=>/\b(?i)SQL\b/,
+"psql"=>/\b(?i)(PSQL)|(PROCEDURAL SQL)\b/,
+"spl"=>/\b(?i)(SPL)|(STORED PROCEDURAL LANGUAGE)\b/,
+"nzplsql"=>/\b(?i)(NZPLSQL)\b/,
+"t-sql"=>/\b(?i)(T(\-)?SQL)|(TRANSACT(\-)?SQL)\b/,
+"sql/psm"=>/\b(?i)(SQL\/PSM)|(SQL\/PERSISTENT STORED MODULE)\b/,
+"ssp"=>/\b(?i)(SSP)|(STARKEY STORED PROCEDURES)\b/,
+"pl/sql"=>/\b(?i)(PL\/SQL)|(PROCEDURAL LANGUAGE\/SQL)\b/,
+"pl/pgsql"=>/\b(?i)(PL\/PGSQL)|(PROCEDURAL LANGUAGE\/POSTGRESQL)\b/,
+"watcom-sql"=>/\b(?i)(WATCOM\-SQL)\b/,
+"sap-hana"=>/\b(?i)SAP HANA\b/,
 "xml"=>/\b(?i)XML\b/,
 "silktest"=>/\b(?i)SILKTEST\b/
 }
@@ -43,7 +57,7 @@ def test_automation_words
 }
 end
 
-def web_dev_words
+def web_words
 { "html"=>/\b(?i)HTML\b/,
 "vbscript"=>/\b(?i)(VBSCRIPT)|(VB SCRIPT)\b/,
 "php"=>/\b(?i)PHP\b/,
@@ -57,12 +71,43 @@ def web_dev_words
 } 
 end
 
+def database_words
+{"sql"=>/\b(?i)SQL\b/,
+"psql"=>/\b(?i)(PSQL)|(PROCEDURAL SQL)\b/,
+"spl"=>/\b(?i)(SPL)|(STORED PROCEDURAL LANGUAGE)\b/,
+"nzplsql"=>/\b(?i)(NZPLSQL)\b/,
+"t-sql"=>/\b(?i)(T(\-)?SQL)|(TRANSACT(\-)?SQL)\b/,
+"sql/psm"=>/\b(?i)(SQL\/PSM)|(SQL\/PERSISTENT STORED MODULE)\b/,
+"ssp"=>/\b(?i)(SSP)|(STARKEY STORED PROCEDURES)\b/,
+"pl/sql"=>/\b(?i)(PL\/SQL)|(PROCEDURAL LANGUAGE\/SQL)\b/,
+"pl/pgsql"=>/\b(?i)(PL\/PGSQL)|(PROCEDURAL LANGUAGE\/POSTGRESQL)\b/,
+"watcom-sql"=>/\b(?i)(WATCOM\-SQL)\b/,
+"sap-hana"=>/\b(?i)SAP HANA\b/
+}
+end
+
 def embedded_words
-{"c"=>/\b(?i)C\b/,
+{"c"=>/\b(?i)(C)|(OBJECTIVE C)\b/,
 "c++"=>/\b(?i)C\+{2}\b/,
 "java"=>/\b(?i)JAVA\b/,
 "javascript"=>/\b(?i)JAVASCRIPT\b/,
 "python"=>/\b(?i)python\b/,
 "assembly"=>/\b(?i)ASSEMBLY LANGUAGE[S]{0,1}\b/
+}
+end
+
+def object_oriented_words
+{"c"=>/\b(?i)(C)|(OBJECTIVE C)\b/,
+"c++"=>/\b(?i)C\+{2}\b/,
+"java"=>/\b(?i)JAVA\b/,
+"python"=>/\b(?i)python\b/,
+"c#"=>/\b(?i)c\#/,
+"ruby"=>/\b(?i)ruby\b/,
+"swift"=>/\b(?i)SWIFT\b/,
+"delphi"=>/\b(?i)DELPHI\b/,
+"smalltalk"=>/\b(?i)SMALLTALK\b/,
+"perl"=>/\b(?i)perl\b/,
+"php"=>/\b(?i)php\b/,
+"lisp"=>/\b(?i)LISP\b/
 }
 end

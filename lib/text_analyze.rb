@@ -26,3 +26,50 @@ def compare (resume, job)
     @result=0
  end
 end
+
+def initilize (myflag)
+  myflag={"Web"=>false,
+          "Database"=>false,
+          "Object-Oriented"=>false,
+          "Networking"=>false,
+          "Embedded"=>false,
+          "Backend"=>false,
+          "Frontend"=>false,
+          "Server"=>false
+          }
+  return myflag
+end
+
+def flag_set (resume, myflag)
+    myflag=initilize(myflag)
+    resume.each do |resume_word|
+      if myflag["Web"]==false
+        web_words.each do |key, regex|
+          if myflag["Web"]==false
+            if resume_word=~regex
+              myflag["Web"]=true
+            end
+          end
+        end
+      end
+      if myflag["Database"]==false
+        database_words.each do |key, regex|
+          if myflag["Database"]==false
+            if resume_word=~regex
+              myflag["Database"]=true
+            end
+          end
+        end
+      end
+      if myflag["Object-Oriented"]==false
+        object_oriented_words.each do |key, regex|
+          if myflag["Object-Oriented"]==false
+            if resume_word=~regex
+              myflag["Object-Oriented"]=true
+            end
+          end
+        end
+      end
+    end
+return myflag
+end

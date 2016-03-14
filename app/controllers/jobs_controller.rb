@@ -26,6 +26,7 @@ class JobsController < ApplicationController
       yourjson=goodstuff.json()
       job_text=yourjson["document"][0]["content"]
       @resume_words=analyze(resume_text)
+      @myflag=flag_set(@resume_words, @myflag)
       @job_words=analyze(job_text)
       @result=compare(@resume_words, @job_words)
     end

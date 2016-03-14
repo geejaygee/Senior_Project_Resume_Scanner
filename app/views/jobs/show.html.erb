@@ -14,6 +14,22 @@ Your words:
           <%=word%>,
         <% end %>
 <br>
+***********************************
+Your flags:
+<br>
+        <% @myflag.each do |key, value| %>
+          <% if value==true %>
+           True flag found:
+            <%=key%>
+          <br>
+          <% else %>
+          False flag Found:
+            <%=key %>
+            <br>
+          <% end %>
+        <% end %>
+**************************************
+<br>
 This applications words: 
         <% @job_words.each do |word| %>
           <%=word%>,
