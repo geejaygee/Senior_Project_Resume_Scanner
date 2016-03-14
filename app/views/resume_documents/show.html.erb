@@ -1,13 +1,20 @@
 <br>
-  <% if current_user.resume_document %>
-    Your Uploaded Resume: <%= current_user.resume_document.filename %>
+  <% if @user.resume_document %>
+    <b><%=@user.name%>'s Resume</b>
     <br>
-    <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + current_user.resume_document.attachment_url,'r')}) %>
+    Your Uploaded Resume file: <%= @user.resume_document.filename %>
+    <br>
+    <% r=$client.post('viewdocument', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')}) %>
     <div align: center>
     <iframe srcdoc="<%=r.json%>" width="800" height="600" style="border:5px dotted green"></iframe>
     </div>
+    <div>
+    <br>  
+    </div>
     <br>
-    <%= button_to "Delete", current_user.resume_document, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+    <% if current_user==@user %>
+      <%= button_to "Delete", @user.resume_document, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+    <% end %>
   <% else %>
     <%= button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method => :get %>
   <% end %>

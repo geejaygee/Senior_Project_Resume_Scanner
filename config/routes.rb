@@ -6,6 +6,10 @@ Rails.application.routes.draw do
     collection do
       get 'my_index'
       get 'all_index'
+      get 'top_job'
+      scope ":id" do
+        get 'applicants'
+      end
     end
   end
   resources :resume_documents

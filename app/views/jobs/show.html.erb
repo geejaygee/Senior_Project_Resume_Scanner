@@ -3,6 +3,29 @@
     <h1><%= @job.position %></h1>
     <% if user_signed_in? %>
       <% if current_user.resume_document %>
+        You match this job <%=(@result*100).to_i%>  %
+        <br>
+----------------------------------------------------
+<br>
+TESTING
+<br>
+Your words:
+        <% @resume_words.each do |word| %>
+          <%=word%>,
+        <% end %>
+<br>
+This applications words: 
+        <% @job_words.each do |word| %>
+          <%=word%>,
+        <% end %>
+<br>
+Matching words found:
+        <% @matching_words.each do |word| %>
+          <%=word%>,
+        <% end %>
+<br>
+----------------------------------------------------
+<br>
         <% if @applied==false %>
         <%= render 'job_applications/form' %>
         <% else %>

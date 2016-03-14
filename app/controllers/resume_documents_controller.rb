@@ -1,8 +1,14 @@
 class ResumeDocumentsController < ApplicationController
   before_action :set_resume, only: [ :edit, :update, :destroy]
-
+  load "#{Rails.root}/lib/text_analyze.rb"
   def show
-    
+    @user=User.find(params[:id])
+    goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')})
+    yourjson=goodstuff.json()
+    @sometext=yourjson["document"][0]["content"] 
+    @match=Array.new
+    @matching=Array.new
+    @matching=analyze(@sometext)        
   end
 
   def new

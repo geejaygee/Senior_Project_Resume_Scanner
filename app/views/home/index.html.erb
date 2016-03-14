@@ -1,12 +1,16 @@
-<h1> This is a basic landing page!</h1>
+<h1> Welcome to Skill Scanner!</h1>
 
 <% if user_signed_in? %>
   <h3>Welcome <%=current_user.name%></h3>
   <% if current_user.resume_document %>
     <%= button_to 'View Resume', resume_document_path(current_user), :class=>"button", :method=>:get %>
+    <br>
+    <%= button_to 'Top 5 Jobs', top_job_jobs_path(current_user), :class=>"button", :method=>:get %>
   <% else %>
     <%= button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method => :get %>
   <% end %>
+  <br>
+  <%=button_to 'View Jobs Applied To', my_index_jobs_path(current_user), :class=>"button", :method=>:get %>
 <% end %>
 <% if employer_signed_in? %>
   <h3> Welcome <%= current_employer.companyName %> Company </h3>
@@ -19,3 +23,4 @@
 
 <br>
 <%= button_to 'View Jobs', all_index_jobs_path, :class=>"button", :method => :get %>
+

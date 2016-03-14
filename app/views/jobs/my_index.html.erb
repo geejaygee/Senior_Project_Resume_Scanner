@@ -1,5 +1,19 @@
 <h1> My Jobs </h1>
-<% if current_employer.jobs.size >= 1 %>
+<% if user_signed_in? %>
+  <% if current_user.job_applications.size >= 1 %>
+    <% current_user.job_applications.each do |application| %>
+      <%=link_to application.job.position, application.job, :method=>:get %>
+      <br>
+      <%=application.job.employer.companyName%>
+      <br>
+      ---------------------------------------------
+      <br>
+    <% end %>
+  <% else %>
+    You havent applied to any jobs
+  <% end %>
+<% else %>
+  <% if current_employer.jobs.size >= 1 %>
     <% current_employer.jobs.each_with_index do |job, index| %>
       <%= link_to job.position, job, :method=>:get %> 
       <br>
@@ -7,11 +21,14 @@
       <br>
       <%= job.attachment %>
       <br>
+      <%= link_to "Applicants", applicants_jobs_path(job), :method=>:get %>
+      <br>
 ---------------------------------------------------
     <br>
     <% end %>
-<% else %>
+  <% else %>
   Post a Job Now!
   <%= button_to 'Post a Job', new_job_path, :class=>"button", :method=>:get %>
+  <% end %>
 <% end %>
 <%= button_to 'Home', root_path, :class=>"button", :method => :get %>
