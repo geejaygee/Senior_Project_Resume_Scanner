@@ -87,6 +87,7 @@ class JobsController < ApplicationController
 
   def destroy
     @job=Job.find(params[:id])
+    File.delete("#{Rails.root}/public/#{@job.attachment}")
     @job.destroy
     redirect_to root_path, notice: 'The job has been deleted.'
   end

@@ -32,6 +32,7 @@ class ResumeDocumentsController < ApplicationController
 
   def destroy
     @resume=ResumeDocument.find(params[:id])
+    File.delete("#{Rails.root}/public/#{@resume.attachment}")
     @resume.destroy
     redirect_to root_path, notice: 'The resume has been deleted.'
   end
