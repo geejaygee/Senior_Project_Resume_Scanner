@@ -78,6 +78,9 @@ class JobsController < ApplicationController
       @job=Job.new(job_params)
       @job.filename=File.basename(@job.attachment_url)
       @job.employer=current_employer
+      if !(@job.hyperlink=~/http:\/\/.*|https:\/\/.*/)
+        @job.hyperlink="http://"+@job.hyperlink
+      end
       if @job.save
         redirect_to root_path, notice: 'Job was successfully uploaded.'
       else
@@ -98,6 +101,6 @@ class JobsController < ApplicationController
     end
 
     def job_params
-      params.require(:job).permit(:position, :filename, :attachment)
+      params.require(:job).permit(:position, :filename, :attachment, :description, :hyperlink)
     end
 end

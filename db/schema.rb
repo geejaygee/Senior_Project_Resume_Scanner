@@ -45,6 +45,8 @@ ActiveRecord::Schema.define(version: 20160223064705) do
   create_table "jobs", force: :cascade do |t|
     t.string   "position"
     t.string   "filename"
+    t.string   "description"
+    t.string   "hyperlink"
     t.string   "attachment"
     t.integer  "employer_id"
     t.datetime "created_at",  null: false

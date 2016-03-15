@@ -8,7 +8,10 @@ Sorry, currently no jobs posted
       <br>
       <%=employer.companyName %>
       <br>
-      <br>
+      <% if job.description %>
+        <%=job.description%>
+        <br>
+      <% end %>
 ---------------------------------------------------
     <br>
     <% end %>

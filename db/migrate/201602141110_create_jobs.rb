@@ -3,6 +3,8 @@ class CreateJobs < ActiveRecord::Migration
     create_table :jobs do |t|
       t.string :position
       t.string :filename
+      t.string :description
+      t.string :hyperlink
       t.string :attachment
       t.references :employer, index: true, foreign_key: true
       t.timestamps null: false

@@ -22,6 +22,7 @@ def programing_words
 "ruby on rails"=>/\b(?i)(RUBY ON RAILS)|(ROR)\b/,
 "sql"=>/\b(?i)SQL\b/,
 "psql"=>/\b(?i)(PSQL)|(PROCEDURAL SQL)\b/,
+"postgresql"=>/\b(?i)POSTGRESQL\b/,
 "spl"=>/\b(?i)(SPL)|(STORED PROCEDURAL LANGUAGE)\b/,
 "nzplsql"=>/\b(?i)(NZPLSQL)\b/,
 "t-sql"=>/\b(?i)(T(\-)?SQL)|(TRANSACT(\-)?SQL)\b/,
@@ -74,6 +75,7 @@ end
 def database_words
 {"sql"=>/\b(?i)SQL\b/,
 "psql"=>/\b(?i)(PSQL)|(PROCEDURAL SQL)\b/,
+"postgresql"=>/\b(?i)POSTGRESQL\b/,
 "spl"=>/\b(?i)(SPL)|(STORED PROCEDURAL LANGUAGE)\b/,
 "nzplsql"=>/\b(?i)(NZPLSQL)\b/,
 "t-sql"=>/\b(?i)(T(\-)?SQL)|(TRANSACT(\-)?SQL)\b/,
@@ -82,7 +84,11 @@ def database_words
 "pl/sql"=>/\b(?i)(PL\/SQL)|(PROCEDURAL LANGUAGE\/SQL)\b/,
 "pl/pgsql"=>/\b(?i)(PL\/PGSQL)|(PROCEDURAL LANGUAGE\/POSTGRESQL)\b/,
 "watcom-sql"=>/\b(?i)(WATCOM\-SQL)\b/,
-"sap-hana"=>/\b(?i)SAP HANA\b/
+"sap-hana"=>/\b(?i)SAP HANA\b/,
+"hadoop"=>/\b(?i)HADOOP\b/,
+"spark"=>/\b(?i)SPARK\b/,
+"nosql"=>/\b(?i)NOSQL\b/,
+"big data"=>/\b(?i)BIG DATA\b/
 }
 end
 

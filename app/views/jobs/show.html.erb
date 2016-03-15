@@ -1,6 +1,12 @@
 <br>
   <% if @job %>
     <h1><%= @job.position %></h1>
+    <br>
+    <br>
+    <% if @job.description %>
+      <%=@job.description %>
+    <% end %>
+    <br>
     <% if user_signed_in? %>
       <% if current_user.resume_document %>
         You match this job <%=(@result*100).to_i%>  %
@@ -44,12 +50,19 @@ Matching words found:
 <br>
         <% if @applied==false %>
         <%= render 'job_applications/form' %>
+        <% if @job.hyperlink %>
+          or you can apply directly at:
+        <% end %>
         <% else %>
           You have already applied to this position.
         <% end %>
       <% else %>
-        Upload a Resume to Apply! <%=button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method=>:get %>
+        Upload a Resume to Apply! <%=button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method=>:get %> 
+        <br>
       <% end %>
+    <% end %>
+    <% if @job.hyperlink %>
+      <%=link_to @job.hyperlink, @job.hyperlink %>
     <% end %>
     <br>
     <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
