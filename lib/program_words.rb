@@ -17,7 +17,7 @@ def programing_words
 "visual basic .net"=>/\b(?i)((visual\sbasic\s\.net)| \bvisual\sbasic\.net)/,
 "visual basic"=>/\b(?i)(visual\sbasic)/,
 "html"=>/\b(?i)HTML\b/,
-"css"=>/\b(?i)(CASCADING STYLE SHEETS)|(CSS[123]{0,1})\b/,
+"css"=>/\b(?i)(CASCADING STYLE SHEETS)|(CSS[123]?)\b/,
 "mysql"=>/\b(?i)MYSQL\b/,
 "ruby on rails"=>/\b(?i)(RUBY ON RAILS)|(ROR)\b/,
 "sql"=>/\b(?i)SQL\b/,
@@ -115,5 +115,62 @@ def object_oriented_words
 "perl"=>/\b(?i)perl\b/,
 "php"=>/\b(?i)php\b/,
 "lisp"=>/\b(?i)LISP\b/
+}
+end
+
+def backend_words
+{
+}
+end
+
+def networking_words
+{
+}
+end
+
+def frontend_words
+{"javascript"=>/\b(?i)javascript\b/,
+"css"=>/\b(?i)(CASCADING STYLE SHEETS)|(CSS[123]?)\b/,
+
+}
+end
+
+def server_words
+{"shell"=>/\b(?i)SHELL\b/,
+"ssl"=>/\b(?i)SSL\b/,
+"san"=>/\b(?i)(SAN)|STORAGE AREA NETWORKS\b/,
+"information security"=>/\b(?i) INFORMATION SECURITY\b/,
+}
+end
+
+def common_general_skills
+{"Problem solving"=>/\b(?i)PROBLEM SOLVING\b/,
+"interpersonal"=>/\b(?i)INTERPERSONAL\b/,
+"verbal"=>/\b(?i)VERBAL\b/,
+"communication"=>/\b(?i)COMMUNICATION\b/
+}
+end
+
+def certification
+{"comptia a"=>/\b(?i)COMPTIA A(\+)?\b/,
+"comptia network"=>/\b(?i)COMPTIA NETWORK(\+)?\b/,
+"microsoft certified systems engineer"=>/\b(?i)(MCSE)|MICROSOFT CERTIFIED SYSTEMS ENGINEER\b/,
+"microsoft certified architect"=>/\b(?i)(MCA)|(MICROSOFT CERTIFIED ARCHITECT)\b/,
+"cisco certified internetwork expert"=>/\b(?i)(CCIE)|(CISCO CERTIFIED INTERNETWORK EXPERT)\b/,
+"cisco certified security professional"=>/\b(?i)(CCSP)|(CISCO CERTIFIED SECURITY PROFESSIONAL)\b/,
+"certified information systems security professinal"=>/\b(?i)(CISSP)|(CERTIFIED INFORMATION SYSTEMS SECURITY PROFESSIONAL)\b/,
+"systems security certified practitioner"=>/\b(?i)(SSCP)|(SYSTEMS SECURITY CERTIFIED PRACTITIONER)\b/,
+"giac security expert"=>/\b(?i)(GSE)|(GIAC SECURITY EXPERT)\b/,
+"giac security essentials certification"=>/\b(?i)(GSEC)|(GIAC SECURITY ESSENTIALS CERTIFICATION)\b/,
+"giac certified intrusion analyst"=>/\b(?i)(GCIA)|(GIAC CERTIFIED INTRUSION ANALYST)\b/,
+"giac certified incident handler"=>/\b(?i)(GCIH)|(GIAC CERTIFIED INCIDENT HANDLER)\b/,
+"red hat certified engineer"=>/\b(?i)(RHCE)|(RED HAT CERTIFIED ENGINEER)\b/,
+"red hat certified architect"=>/\b(?i)(RHCA)|(RED HAT CERTIFIED ARCHITECT)\b/,
+"information technology infrastructure library"=>/\b(?i)(ITTL)|(INFORMATION TECHNOLOGY INFRASTRUCTURE LIBRARY)\b/,
+"health insurance portability and accountability act compliance certification"=>/\b(?i)(HIPAA)|(HEALTH INSURANCE PORTABILITY AND ACCOUNTABILITY ACT COMPLIANCE CERTIFICATION)\b/,
+"sarbanes-oxley compliance certification"=>/\b(?i)(SOX)|(SARBANES( )?(\-)?( )?OXLEY COMPLIANCE CERTIFICATION)\b/,
+"database administration certification"=>/\b(?i)(DAC)|(DATABASE ADMINISTRATION CERTIFICATION)\b/,
+"wireless networking certification"=>/\b(?i)(WNC)|(WIRELESS NETWORKING CERTIFICATION(S)?)\b/,
+"voice over ip certification"=>/\b(?i)(VOIPC)|(VOICE OVER IP CERTIFICATION(S)?)\b/
 }
 end

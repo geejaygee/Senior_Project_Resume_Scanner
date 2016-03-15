@@ -70,6 +70,51 @@ def flag_set (resume, myflag)
           end
         end
       end
+      if myflag["Networking"]==false
+        networking_words.each do |key, regex|
+          if myflag["Networking"]==false
+            if resume_word=~regex
+              myflag["Networking"]=true
+            end
+          end
+        end
+      end
+      if myflag["Embedded"]==false
+        embedded_words.each do |key, regex|
+          if myflag["Embedded"]==false
+            if resume_word=~regex
+              myflag["Embedded"]=true
+            end
+          end
+        end
+      end
+      if myflag["Backend"]=false
+        backend_words.each do |key, regex|
+          if myflag["Backend"]=false
+            if resume_word=~regex
+              myflag["Backend"]=true
+            end
+          end
+        end
+      end
+     if myflag["Frontend"]=false
+       frontend_words.each do |key, regex|
+         if myflag["Frontend"]=false
+           if resume_word=~regex
+             myflag["Frontend"]=true
+           end
+         end
+       end
+     end
+     if myflag["Server"]=false
+       server_words.each do |key, regex|
+         if myflag["Server"]=false
+           if resume_word=~regex
+             myflag["Server"]=true
+           end
+         end
+       end
+     end
     end
 return myflag
 end
