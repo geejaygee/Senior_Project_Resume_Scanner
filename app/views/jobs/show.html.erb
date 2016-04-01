@@ -2,6 +2,14 @@
   <% if @job %>
     <h1><%= @job.position %></h1>
     <br>
+********************************
+TESTING
+<br>
+Experience:
+<%=@job_experience["start"]%> - <%=@job_experience["end"]%>
+<br>
+*********************************
+
     <br>
     <% if @job.description %>
       <%=@job.description %>

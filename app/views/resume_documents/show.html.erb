@@ -2,7 +2,21 @@
   <% if @user.resume_document %>
     <b><%=@user.name%>'s Resume</b>
     <br>
-    Your Uploaded Resume file: <%= @user.resume_document.filename %>
+    <h3> Testing </h3>
+------------------------------------------------------------
+<br>    
+Your Uploaded Resume file: <%= @user.resume_document.filename %>
+<br>
+    <% @experience.each do |exp| %>
+       Industry: <%= exp["industry"] %><br>
+       Position: <%= exp["position"] %><br>
+       Experience: <%= exp["experience"]%> in days
+       <br>
+    <% end %>
+<br>
+
+<br>
+-----------------------------------------------------------
     <br>
     <% r=$client.post('viewdocument', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')}) %>
     <div align: center>

@@ -1,6 +1,9 @@
 def programing_words
 { ".net"=> /\b(?i)\.net/,
-"bash"=>/\b(?i)bash\b/,
+"bash"=>/\b(?i)(BASH)| (BASH SHELL)\b/,
+"shell"=>/\b(?i)SHELL\b/,
+"ssl"=>/\b(?i)SSL\b/,
+"san"=>/\b(?i)(SAN)|STORAGE AREA NETWORKS\b/,
 "ruby"=>/\b(?i)ruby\b/,
 "c"=>/\b(?i)c\b/,
 "c#"=>/\b(?i)c\#/,
@@ -119,7 +122,10 @@ def object_oriented_words
 end
 
 def backend_words
-{
+{"ruby on rails"=>/\b(?i)(RUBY ON RAILS)|(ROR)\b/,
+"perl"=>/\b(?i)perl\b/,
+"php"=>/\b(?i)php\b/,
+"python"=>/\b(?i)python\b/,
 }
 end
 
@@ -131,7 +137,7 @@ end
 def frontend_words
 {"javascript"=>/\b(?i)javascript\b/,
 "css"=>/\b(?i)(CASCADING STYLE SHEETS)|(CSS[123]?)\b/,
-
+"html"=>/\b(?i)HTML\b/
 }
 end
 

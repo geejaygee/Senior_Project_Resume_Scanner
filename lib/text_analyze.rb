@@ -88,18 +88,18 @@ def flag_set (resume, myflag)
           end
         end
       end
-      if myflag["Backend"]=false
+      if myflag["Backend"]==false
         backend_words.each do |key, regex|
-          if myflag["Backend"]=false
+          if myflag["Backend"]==false
             if resume_word=~regex
               myflag["Backend"]=true
             end
           end
         end
       end
-     if myflag["Frontend"]=false
+     if myflag["Frontend"]==false
        frontend_words.each do |key, regex|
-         if myflag["Frontend"]=false
+         if myflag["Frontend"]==false
            if resume_word=~regex
              myflag["Frontend"]=true
            end

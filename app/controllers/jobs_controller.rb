@@ -9,6 +9,11 @@ class JobsController < ApplicationController
   def show
     @employer=Employer.find(@job.employer_id)
     @applied=false
+    goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + @job.attachment_url,'r')})
+    yourjson=goodstuff.json()
+    job_text=yourjson["document"][0]["content"]
+    @job_experience=Hash.new
+    @job_experience=experience_calc_job(job_text)
     if user_signed_in?
       @user=current_user
       @applications=current_user.job_applications.map{|job_application| job_application.job} 
@@ -22,9 +27,6 @@ class JobsController < ApplicationController
       goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + current_user.resume_document.attachment_url,'r')})
       yourjson=goodstuff.json()
       resume_text=yourjson["document"][0]["content"]
-      goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + @job.attachment_url,'r')})
-      yourjson=goodstuff.json()
-      job_text=yourjson["document"][0]["content"]
       @resume_words=analyze(resume_text)
       @myflag=flag_set(@resume_words, @myflag)
       @job_words=analyze(job_text)
