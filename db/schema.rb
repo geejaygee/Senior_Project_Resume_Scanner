@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20160223064705) do
     t.string   "description"
     t.string   "hyperlink"
     t.string   "attachment"
+    t.string   "job_type"
     t.integer  "employer_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false

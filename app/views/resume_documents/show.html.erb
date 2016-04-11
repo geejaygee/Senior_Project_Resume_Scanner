@@ -14,7 +14,18 @@ Your Uploaded Resume file: <%= @user.resume_document.filename %>
        <br>
     <% end %>
 <br>
-
+**********************************************************
+<br>
+Education
+<br>
+  <% @education.each do |edu| %>
+   Level:  <%=edu["level"]%><br>
+   Degree: <%=edu["degree"]%><br>
+   Type: <%=edu["type"]%><br>
+   Time since graduation: <%=edu["time"]%><br>
+   Test: <%=edu["start"]%><br>
+   <br>
+   <% end %>
 <br>
 -----------------------------------------------------------
     <br>

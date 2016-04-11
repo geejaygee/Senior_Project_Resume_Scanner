@@ -12,8 +12,11 @@ class JobsController < ApplicationController
     goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + @job.attachment_url,'r')})
     yourjson=goodstuff.json()
     job_text=yourjson["document"][0]["content"]
+    @industry=job_industry(@job.position, job_text)
     @job_experience=Hash.new
+    @job_education=Hash.new
     @job_experience=experience_calc_job(job_text)
+    @job_education=education_req(job_text, @job.position)
     if user_signed_in?
       @user=current_user
       @applications=current_user.job_applications.map{|job_application| job_application.job} 
@@ -80,7 +83,8 @@ class JobsController < ApplicationController
       @job=Job.new(job_params)
       @job.filename=File.basename(@job.attachment_url)
       @job.employer=current_employer
-      if !(@job.hyperlink=~/http:\/\/.*|https:\/\/.*/)
+      @job.hyperlink.lstrip!
+      if (!@job.hyperlink.empty?)&&(!(@job.hyperlink=~/http:\/\/.*|https:\/\/.*/))
         @job.hyperlink="http://"+@job.hyperlink
       end
       if @job.save
@@ -103,6 +107,6 @@ class JobsController < ApplicationController
     end
 
     def job_params
-      params.require(:job).permit(:position, :filename, :attachment, :description, :hyperlink)
+      params.require(:job).permit(:position, :filename, :attachment, :description, :hyperlink, :job_type)
     end
 end

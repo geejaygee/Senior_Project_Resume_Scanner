@@ -6,6 +6,8 @@ Sorry, currently no jobs posted
     <% employer.jobs.each do |job| %>
       <%= link_to job.position, job, :method=>:get %>
       <br>
+      <%=job.job_type%>
+      <br>
       <%=employer.companyName %>
       <br>
       <% if job.description %>

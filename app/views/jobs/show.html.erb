@@ -3,10 +3,24 @@
     <h1><%= @job.position %></h1>
     <br>
 ********************************
+<br>
 TESTING
+<br>
+Industry:
+<%=@industry%>
 <br>
 Experience:
 <%=@job_experience["start"]%> - <%=@job_experience["end"]%>
+<br>
+<br>
+Required Education/Certificates
+<br>
+  <%@job_education.each do |job|%>
+    Degree: <%=job["degree"]%><br>
+    Level: <%=job["level"]%><br>
+    Type: <%=job["type"]%><br>
+  <br>
+  <% end %>
 <br>
 *********************************
 

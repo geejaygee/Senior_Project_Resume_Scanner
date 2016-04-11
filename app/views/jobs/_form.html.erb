@@ -31,6 +31,12 @@
   </div>
 <br>
   <div class="field">
+    <%= f.radio_button :job_type, 'Full-Time' %>Full-Time<br />
+    <%= f.radio_button :job_type, 'Part-Time' %>Part-Time<br />
+    <%= f.radio_button :job_type, 'Internship' %>Internship<br />
+  </div>
+<br>
+  <div class="field">
     <%= f.submit %>
   </div>
 <% end %>

@@ -55,6 +55,23 @@ def experience_calc(resume_text)
   return array
 end
 
+def job_industry(position, job_text)
+  flag=false
+  industry=String.new
+  industry="other"
+  jobs.each do |key, hash|
+    if flag==false
+      hash.each do |key2, regex|
+        if (position=~regex)
+          industry=key
+          flag=true
+        end
+      end
+    end
+  end
+  return industry
+end
+
 def experience_calc_job (job_text)
   experience_hash={"start"=>0, "end"=>0}
   if ((experience=job_text.scan(/(?<!\s\-\s|\-)\d{1,2}(?:(?i)\+?\s?(?:YEAR)(?:S)?.?\s(?:of)?)/)).size!=0)
@@ -199,4 +216,95 @@ def num_conv date1
     dat1=DateTime.parse($1+"-1-1").to_date
   end
   return dat1
+end
+
+def education (resume_text)
+  myarray=Array.new
+  level.each do |key3, regex_type|
+    degree.each do |key, hash|
+      hash.each do |key2, regex_degree|
+        myregex=(Regexp.new(regex_type.to_s+'(\s)?((?i)IN|OF)?(\s)?'+regex_degree.to_s))
+          if ((education=resume_text.scan(myregex)).size!=0)
+            myhash=Hash.new
+            myhash["time"]=0
+            myhash["start"]=education[0]
+            if ((experience_start=resume_text.scan(/(?<=#{education[0].join})(?:\s|\.|\,|\-|\–|\(|\))*(?:(?!(?i)(?:SPRING)|(?:SUMMER)|(?:FALL)|(?:AUTUMN)|(?:WINTER)|(?:JANUARY)|(?:JAN\.?)|(?:FEBRUARY)|(?:FEB\.?)|(?:MARCH)|(?:MAR\.?)|(?:APRIL)|(?:APR\.?)|(?:MAY)|(?:JUNE)|(?:JUN\.?)|(?:JULY)|(?:JUL\.?)|(?:AUGUST)|(?:AUG.?)|(?:SEPTEMBER)|(?:SEPT\.?)|(?:OCTOBER)|(?:OCT\.?)|(?:NOVEMBER)|(?:NOV\.?)|(?:DECEMBER)|(?:DEC\.?))\w*\b\W*){,5}(?:\s|\.|\,|\-|\–|\(|\))*(((\d{1,2})(\/|\-)(\d{1,2})?(\/|\-)?(\d{4}|\d{1,2}))|((?i)((SPRING)|(SUMMER)|(FALL)|(AUTUMN)|(WINTER)|(JANUARY)|(JAN\.?)|(FEBRUARY)|(FEB\.?)|(MARCH)|(MAR\.?)|(APRIL)|(APR\.?)|(MAY)|(JUNE)|(JUN\.?)|(JULY)|(JUL\.?)|(AUGUST)|(AUG.?)|(SEPTEMBER)|(SEPT\.?)|(OCTOBER)|(OCT\.?)|(NOVEMBER)|(NOV\.?)|(DECEMBER)|(DEC\.?))(\s|\-|\/)?(\d{2}|\d{1})?(\,)?(\s|\-|\/)?(\d{4}|\d{2}))|(\d{4}))/)).size!=0)
+              value1=num_conv experience_start[0][0]
+              value2=num_conv "present"
+              myhash["start"]=education[0].join
+              myhash["time"]=difference value1, value2
+            end
+            myhash["level"]=key3
+            myhash["degree"]=key2
+            myhash["type"]=key
+            myarray.push(myhash)
+          end
+      end
+    end
+  end
+  certification.each do |key, regex|
+    if resume_text.match(regex)
+      myhash=Hash.new
+      myhash["level"]="blank space"
+      myhash["degree"]=key
+      myhash["type"]="certificate"
+      myhash["time"]=0
+      myhash["start"]=0
+      myarray.push(myhash)
+    end
+  end
+  return myarray              
+end
+
+def education_req (job_text, position)
+  myarray=Array.new
+  match=false
+  level.each do |key3, regex_type|
+    degree.each do |key, hash|
+      hash.each do |key2, regex_degree|
+        myregex=(Regexp.new(regex_type.to_s+'(\s?\(?\b\w*\W?\w*\b\)?\s?){,5}\s((?i)IN|OF)?\s?'+regex_degree.to_s))
+          if ((education=job_text.scan(myregex)).size!=0)
+            myhash=Hash.new
+            myhash["level"]=key3
+            myhash["degree"]=key2
+            myhash["type"]=key
+            myarray.push(myhash)
+            education[0].compact!
+            if match==false
+              if ((experience=job_text.scan(/(?<=#{education[0][2]})\s(?:((\b\w*\b\,?\s)|\(|\))){,10}(?i)or\s(?:(?!(?i)(with)|(and))\b\w*\b\s?){,5}(?i)experience/)).size!=0)
+                jobs.each do |job_key, hash|
+                  hash.each do |job_hash_key, job_hash_regex|
+                    if ((work_experience=position.scan(job_hash_regex)).size!=0)
+                      myhash=Hash.new
+                      myhash["level"]="industry"
+                      myhash["degree"]=job_key
+                      myhash["type"]="industry"
+                      match=true
+                      myarray.push(myhash)
+                    else
+                      myhash=Hash.new
+                      myhash["level"]="industry"
+                      myhash["degree"]="any"
+                      myhash["type"]="industry"
+                      match=true
+                      myarray.push(myhash) 
+                    end 
+                  end
+                end
+              end
+            end
+          end
+      end
+    end
+  end
+  certification.each do |key, regex|
+    if job_text.match(regex)
+      myhash=Hash.new
+      myhash["level"]="blank space"
+      myhash["degree"]=key
+      myhash["type"]="certificate"
+      myarray.push(myhash)
+    end
+  end
+  return myarray
 end

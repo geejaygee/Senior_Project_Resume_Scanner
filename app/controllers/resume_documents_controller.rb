@@ -12,6 +12,8 @@ class ResumeDocumentsController < ApplicationController
     @match=Array.new
     @matching=Array.new
     @matching=analyze(@sometext)        
+    @education=Array.new
+    @education=education(@sometext)
   end
 
   def new

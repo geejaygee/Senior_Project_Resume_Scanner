@@ -6,6 +6,7 @@ class CreateJobs < ActiveRecord::Migration
       t.string :description
       t.string :hyperlink
       t.string :attachment
+      t.string :job_type
       t.references :employer, index: true, foreign_key: true
       t.timestamps null: false
     end
