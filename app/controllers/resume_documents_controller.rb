@@ -1,5 +1,5 @@
 class ResumeDocumentsController < ApplicationController
-  before_action :set_resume, only: [ :edit, :update, :destroy]
+  before_action :set_resume, only: [:edit, :update, :destroy]
   load "#{Rails.root}/lib/text_analyze.rb"
   load "#{Rails.root}/lib/experience_calculation.rb"
   def show
@@ -7,13 +7,7 @@ class ResumeDocumentsController < ApplicationController
     goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')})
     yourjson=goodstuff.json()
     @sometext=yourjson["document"][0]["content"]
-    @experience=Array.new
-    @experience=experience_calc(@sometext) 
-    @match=Array.new
-    @matching=Array.new
-    @matching=analyze(@sometext)        
-    @education=Array.new
-    @education=education(@sometext)
+    @resume_hash=JSON.parse(IO.read("#{Rails.root}/#{@user.resume_document.datafile}"))
   end
 
   def new
@@ -24,20 +18,22 @@ class ResumeDocumentsController < ApplicationController
     if (params[:resume_document][:attachment]).blank?
       redirect_to new_resume_document_path, notice: 'Resume cannot be blank.'
     else
-    @resume=ResumeDocument.new(resume_params)
-    @resume.filename=File.basename(@resume.attachment_url)
-    @resume.user=current_user
-    if @resume.save
-      redirect_to root_path, notice: 'Resume was successfully uploaded.'
-    else
-      render :new
-    end
+      @resume=ResumeDocument.new(resume_params)
+      @resume.filename=File.basename(@resume.attachment_url)
+      @resume.user=current_user
+      if @resume.save
+        LongCalculationJob.perform_later(@resume.user)
+        redirect_to root_path, notice: 'Resume was successfully uploaded.'
+      else
+        render :new
+      end
     end
   end
 
   def destroy
     @resume=ResumeDocument.find(params[:id])
-    File.delete("#{Rails.root}/public/#{@resume.attachment}")
+    File.delete("#{Rails.root}/public/#{@resume.attachment_url}")
+    File.delete("#{Rails.root}/#{@resume.datafile}")
     @resume.destroy
     redirect_to root_path, notice: 'The resume has been deleted.'
   end

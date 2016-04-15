@@ -5,6 +5,7 @@ class CreateJobs < ActiveRecord::Migration
       t.string :filename
       t.string :description
       t.string :hyperlink
+      t.string :datafile
       t.string :attachment
       t.string :job_type
       t.references :employer, index: true, foreign_key: true

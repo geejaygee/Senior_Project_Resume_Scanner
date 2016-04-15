@@ -2,7 +2,9 @@
 
 <% if user_signed_in? %>
   <h3>Welcome <%=current_user.name%></h3>
+<br>
   <% if current_user.resume_document %>
+    <%=current_user.resume_document.attachment_url%>
     <%= button_to 'View Resume', resume_document_path(current_user), :class=>"button", :method=>:get %>
     <br>
     <%= button_to 'Top 5 Jobs', top_job_jobs_path(current_user), :class=>"button", :method=>:get %>

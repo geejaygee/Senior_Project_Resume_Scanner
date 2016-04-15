@@ -3,31 +3,24 @@
     <h1><%= @job.position %></h1>
     <br>
 ********************************
+Testing:
 <br>
-TESTING
-<br>
-Industry:
-<%=@industry%>
-<br>
-Experience:
-<%=@job_experience["start"]%> - <%=@job_experience["end"]%>
-<br>
-<br>
-Required Education/Certificates
-<br>
-  <%@job_education.each do |job|%>
-    Degree: <%=job["degree"]%><br>
-    Level: <%=job["level"]%><br>
-    Type: <%=job["type"]%><br>
-  <br>
-  <% end %>
-<br>
-*********************************
-
-    <br>
-    <% if @job.description %>
-      <%=@job.description %>
+      Experience required: <%=@job_data["experience"]["start"]%> to <%=@job_data["experience"]["end"]%> years <br>
+    <br> Skills:<br>
+    <%@job_data["skills"].each do |skill| %>
+      <%=skill%>, 
     <% end %>
+<br>
+<br>
+    <%@job_data["education"].each do |edu|%>
+      Degree: <%=edu["degree"]%><br>
+      Type: <%=edu["type"]%><br>
+      Level: <%=edu["level"]%><br>
+      <br>
+    <% end %>
+    <br>
+    <br>
+    JSON Full: <%= @job_data%>
     <br>
     <% if user_signed_in? %>
       <% if current_user.resume_document %>
@@ -57,17 +50,6 @@ Your flags:
           <% end %>
         <% end %>
 **************************************
-<br>
-This applications words: 
-        <% @job_words.each do |word| %>
-          <%=word%>,
-        <% end %>
-<br>
-Matching words found:
-        <% @matching_words.each do |word| %>
-          <%=word%>,
-        <% end %>
-<br>
 ----------------------------------------------------
 <br>
         <% if @applied==false %>

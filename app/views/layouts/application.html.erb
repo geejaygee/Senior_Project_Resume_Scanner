@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
+<html lang="en">
 <div id="user_nav">
 <% if user_signed_in? %>
   Signed in as <%=current_user.email %>. Not you?
@@ -17,15 +15,20 @@
   <%= link_to "Sign in", new_employer_session_path %>
 <% end %>
 </div>
-<head>
-  <title>Resume</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<%= yield %>
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
 
-</body>
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+    <%= yield %>
+
+  </body>
 </html>

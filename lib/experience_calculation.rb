@@ -274,6 +274,7 @@ def education_req (job_text, position)
               if ((experience=job_text.scan(/(?<=#{education[0][2]})\s(?:((\b\w*\b\,?\s)|\(|\))){,10}(?i)or\s(?:(?!(?i)(with)|(and))\b\w*\b\s?){,5}(?i)experience/)).size!=0)
                 jobs.each do |job_key, hash|
                   hash.each do |job_hash_key, job_hash_regex|
+                  if match==false
                     if ((work_experience=position.scan(job_hash_regex)).size!=0)
                       myhash=Hash.new
                       myhash["level"]="industry"
@@ -289,6 +290,7 @@ def education_req (job_text, position)
                       match=true
                       myarray.push(myhash) 
                     end 
+                  end
                   end
                 end
               end

@@ -4,29 +4,23 @@
     <br>
     <h3> Testing </h3>
 ------------------------------------------------------------
+<br>
+<%=@user.resume_document.filename%>
+<br>
+datafile:
+<%=@user.resume_document.datafile%>
 <br>    
 Your Uploaded Resume file: <%= @user.resume_document.filename %>
 <br>
-    <% @experience.each do |exp| %>
-       Industry: <%= exp["industry"] %><br>
-       Position: <%= exp["position"] %><br>
-       Experience: <%= exp["experience"]%> in days
-       <br>
-    <% end %>
+    <%= @resume_hash["education"].each do |edu| %>
+      Level: <%=edu["level"]%><br>
+      Degree: <%=edu["degree"]%><br>
+      Type: <%=edu["type"]%><br>
+      Time since graduation: <%=edu["time"]%><br>
+      <br>
+    <%end%>
 <br>
 **********************************************************
-<br>
-Education
-<br>
-  <% @education.each do |edu| %>
-   Level:  <%=edu["level"]%><br>
-   Degree: <%=edu["degree"]%><br>
-   Type: <%=edu["type"]%><br>
-   Time since graduation: <%=edu["time"]%><br>
-   Test: <%=edu["start"]%><br>
-   <br>
-   <% end %>
-<br>
 -----------------------------------------------------------
     <br>
     <% r=$client.post('viewdocument', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')}) %>

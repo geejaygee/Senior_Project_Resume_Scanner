@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20160223064705) do
     t.string   "filename"
     t.string   "description"
     t.string   "hyperlink"
+    t.string   "datafile"
     t.string   "attachment"
     t.string   "job_type"
     t.integer  "employer_id"
@@ -58,6 +59,7 @@ ActiveRecord::Schema.define(version: 20160223064705) do
 
   create_table "resume_documents", force: :cascade do |t|
     t.string   "filename"
+    t.string   "datafile"
     t.string   "attachment"
     t.integer  "user_id"
     t.datetime "created_at", null: false

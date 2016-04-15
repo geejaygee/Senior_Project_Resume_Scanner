@@ -9,14 +9,7 @@ class JobsController < ApplicationController
   def show
     @employer=Employer.find(@job.employer_id)
     @applied=false
-    goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + @job.attachment_url,'r')})
-    yourjson=goodstuff.json()
-    job_text=yourjson["document"][0]["content"]
-    @industry=job_industry(@job.position, job_text)
-    @job_experience=Hash.new
-    @job_education=Hash.new
-    @job_experience=experience_calc_job(job_text)
-    @job_education=education_req(job_text, @job.position)
+    @job_data=JSON.parse(IO.read("#{Rails.root}/#{@job.datafile}"))
     if user_signed_in?
       @user=current_user
       @applications=current_user.job_applications.map{|job_application| job_application.job} 
@@ -88,6 +81,7 @@ class JobsController < ApplicationController
         @job.hyperlink="http://"+@job.hyperlink
       end
       if @job.save
+        ApplicationCalculationJob.perform_later(@job.id)
         redirect_to root_path, notice: 'Job was successfully uploaded.'
       else
         render :new
@@ -98,6 +92,7 @@ class JobsController < ApplicationController
   def destroy
     @job=Job.find(params[:id])
     File.delete("#{Rails.root}/public/#{@job.attachment}")
+    File.delete("#{Rails.root}/#{@job.datafile}")
     @job.destroy
     redirect_to root_path, notice: 'The job has been deleted.'
   end
