@@ -2,41 +2,35 @@
   <% if @job.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@resume.errors.count, "error") %> prevented this resume from being uploaded: </h2>
-
-        <ul>
-	<% @job.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-        </ul>
+      <ul>
+      <% @job.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
     </div>
   <% end %>
   <div class="field">
     <%= f.label 'Position Name' %><br>
-    <%= f.text_field :position %>
- </div>
-<br>
- <div class="field">
- <%= f.label 'Description (optional)' %><br>
- <%= f.text_field :description %>
- </div>
-<br>
- <div class="field">
- <%= f.label 'Redirect Link (optional)' %><br>
- <%= f.text_field :hyperlink %>
- <div>
-<br>
+    <%= f.text_field :position, :placeholder=>"Position" %>
+  </div>
   <div class="field">
-    <%= f.label :attachment%><br>
+    <%= f.label 'Description (optional)' %><br>
+    <%= f.text_field :description, :placeholder=>"Description" %>
+  </div>
+  <div class="field">
+    <%= f.label 'Redirect Link (optional)' %><br>
+    <%= f.text_field :hyperlink, :placeholder=>"http://example.com" %>
+  </div>
+  <div class="field">
+    <%= f.label 'Upload Job'%><br>
     <%= f.file_field :attachment %>
   </div>
-<br>
   <div class="field">
-    <%= f.radio_button :job_type, 'Full-Time' %>Full-Time<br />
-    <%= f.radio_button :job_type, 'Part-Time' %>Part-Time<br />
-    <%= f.radio_button :job_type, 'Internship' %>Internship<br />
-  </div>
-<br>
+    <%= f.radio_button :job_type, 'Full-Time' %>Full-Time
+    <%= f.radio_button :job_type, 'Part-Time' %>Part-Time
+    <%= f.radio_button :job_type, 'Internship' %>Internship
+  </div>   
   <div class="field">
-    <%= f.submit %>
+    <%= f.submit 'Post Job', :class=>"button"%>
   </div>
 <% end %>

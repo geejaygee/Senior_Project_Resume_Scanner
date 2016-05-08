@@ -1,42 +1,107 @@
 <br>
-  <% if @user.resume_document %>
-    <b><%=@user.name%>'s Resume</b>
-    <br>
-    <h3> Testing </h3>
-------------------------------------------------------------
-<br>
-<%=@user.resume_document.filename%>
-<br>
-datafile:
-<%=@user.resume_document.datafile%>
-<br>    
-Your Uploaded Resume file: <%= @user.resume_document.filename %>
-<br>
-    <%= @resume_hash["education"].each do |edu| %>
-      Level: <%=edu["level"]%><br>
-      Degree: <%=edu["degree"]%><br>
-      Type: <%=edu["type"]%><br>
-      Time since graduation: <%=edu["time"]%><br>
-      <br>
-    <%end%>
-<br>
-**********************************************************
------------------------------------------------------------
-    <br>
-    <% r=$client.post('viewdocument', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')}) %>
-    <div align: center>
-    <iframe srcdoc="<%=r.json%>" width="800" height="600" style="border:5px dotted green"></iframe>
-    </div>
-    <div>
-    <br>  
-    </div>
-    <br>
-    <% if current_user==@user %>
-      <%= button_to "Delete", @user.resume_document, :class=>"button", method: :delete, confirm: "Are you sure?" %>
-    <% end %>
-  <% else %>
+<% if !@user.resume_document %>
+  No resume uploaded.
+  <% if @user.id=current_user%>
     <%= button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method => :get %>
-  <% end %>
+  <% end%>
+<% else %>
+  <% if !@resume_hash %>
+    Still analyzing document.  Try back again in 10 seconds.
+  <% else %>
+  <%=@resume_hash%>
   <br>
-<%= button_to 'Home', root_path, :class=>"button", :method => :get %>
+  <ul class="tabs" data-tabs id="resume-tabs">
+    <li class="tabs-title is-active"><a href="#ResumePanel"><%=@user.name%>'s Resume</a></li>
+    <li class="tabs-title"><a href="#StatPanel"><%=@user.name%>'s Statistics</a></li>
+   </ul>
 
+    <div class="tabs-content" data-tabs-content="resume-tabs">
+      <div class="tabs-panel is-active" id="ResumePanel">
+        <% r=$client.post('viewdocument', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')}) %>
+        <div class="row align-center">
+          <div class="column small-10 text-center">
+            <iframe srcdoc="<%=r.json%>" width="900" height="1000" style="border-style: solid; border-width: 10px; border-color:#425563;"><p>Your browser does not support iframes.</p></iframe>
+          </div>
+        </div>
+        <div class="row align-center">
+          <div class="column small-6 text-center">
+            <% if current_user==@user %>
+              <%= button_to "Delete", @user.resume_document, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs-panel" id="StatPanel">
+        <ul class="tabs" data-tabs id="statistics-tabs">
+          <li class="tabs-title is-active"><a href="#AllPanel">All</a></li>
+          <li class="tabs-title"><a href="#ExperiencePanel">Experience</a></li>
+          <li class="tabs-title"><a href="#EducationPanel">Education</a></li>
+          <li class="tabs-title"><a href="#SkillsPanel">Skills</a></li>
+        </ul>
+
+        <div class="tabs-content" data-tabs-content="statistics-tabs">
+          <div class="tabs-panel is-active" id="AllPanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <h3>Experience</h3>
+                <%@resume_hash["experience"].each do |exp|%>
+                  Industry: <%=exp["industry"]%><br>
+                  Position: <%=exp["position"]%><br>
+                  Experience: <%=exp["experience"]%> years<br>
+                  <br>
+                <% end %>
+                <h3>Education</h3>
+                <%@resume_hash["education"].each do |edu| %>
+                  Level: <%=edu["level"]%><br>
+                  Degree: <%=edu["degree"]%><br>
+                  Type: <%=edu["type"]%><br>
+                  Time since graduation: <%=edu["time"]%><br>
+                  <br>
+                <% end %>
+                <h3>Skills</h3>
+                <%@resume_hash["skills"].each do |skill| %>
+                  <%=skill%><br>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="tabs-panel" id="ExperiencePanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <%@resume_hash["experience"].each do |exp|%>
+                  Industry: <%=exp["industry"]%><br>
+                  Position: <%=exp["position"]%><br>
+                  Experience: <%=exp["experience"]%> years<br>
+                  <br>
+                <%end%>
+              </div>
+            </div>
+          </div>
+          <div class="tabs-panel" id="EducationPanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <%@resume_hash["education"].each do |edu|%>
+                  Level: <%=edu["level"]%><br>
+                  Degree: <%=edu["degree"]%><br>
+                  Type: <%=edu["type"]%><br>
+                  Time since graduation: <%=edu["time"]%><br>
+                  <br>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="tabs-panel" id="SkillsPanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <%@resume_hash["skills"].each do |skill|%>
+                  <%=skill%><br>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

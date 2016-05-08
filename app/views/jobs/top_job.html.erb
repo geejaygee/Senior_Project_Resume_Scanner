@@ -1,4 +1,11 @@
-<h1> Your top 5 job matches </h1>
+<div class="row align-center">
+  <div class="column small-6 text-center">
+    <h3> Your top 5 job matches </h3>
+  </div>
+</div>
+<div class="row align-center">
+  <div class="column small-12 text-center">
+<%=@industry_hash%>
 <table class="table">
   <thread>
     <tr>
@@ -12,11 +19,10 @@
   <tr>
   <td style="text-align: center">  <%=link_to top[1][1].position, top[1][1], :method=>:get %> </td>
   <td style="text-align: center"> <%= top[1][1].employer.companyName %> </td>
-  <td style="text-align: center"> <%= (top[1][0]*100).to_i %>% </td>
+  <td style="text-align: center"> <%= (top[1][0])%>% </td>
   </tr>
 <% end %>
   </tbody>
 </table>
-<br>
-<%= button_to 'Home', root_path, :class=>"button", :method => :get %>
-
+  </div>
+</div>

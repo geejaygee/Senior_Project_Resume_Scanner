@@ -1,0 +1,83 @@
+@import 'settings';
+
+.top-bar-section ul,
+.top-bar-section ul li.active > a,
+.top-bar-section ul li.active > a:hover,
+.top-bar-section li a:not(.button),
+.top-bar-section li a:not(.button):hover {
+    background: none;   
+}
+.top-bar-section{
+  background: $topbar-background !important;
+  li{
+    background: $topbar-background !important;
+    a:not(.button){
+      background: $topbar-background !important;
+    }
+  }
+}
+.background_image1 {
+  width: 100%;
+}
+.responsive-image{
+  width: 100%;
+  height: auto;
+  background-image: asset-data-url('sunrise.jpg');
+  background-size: contain;
+}
+
+.menu>li>a {
+  color: $hpe-grey;
+  font-size: 1.2rem;
+}
+
+.menu>li>a:hover{
+  color: white;
+}
+table {
+  text-align: center;
+}
+.positionName{
+  color: $hpe-green;
+}
+.employerName{
+  text-decoration: underline;
+  color: $hpe-green;
+}
+.clickableRow{
+  cursor: hand;
+  cursor: pointer;
+}
+
+#sidebar{
+  background-color: $hpe-slate;
+  float: left;
+}
+#tableData{
+  padding-left: 0;
+  padding-right: 0;
+}
+.tabs-title>a{
+  color: $hpe-grey;
+}
+.tabs-title>a:hover{
+  color: white;
+}
+#footer{
+  height: 5rem;
+  background: $hpe-slate;
+}
+.page-footer{
+  height: 5rem;
+}
+
+#red{
+  color: white;
+  background-color: #A90C0C;
+  opacity: 0.7;
+}
+#blue{
+  background-color: $hpe-green;
+  color: white;
+  opacity: 0.7;
+}

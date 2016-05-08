@@ -1,28 +1,24 @@
-<h1> Welcome to Skill Scanner!</h1>
-
-<% if user_signed_in? %>
-  <h3>Welcome <%=current_user.name%></h3>
-<br>
-  <% if current_user.resume_document %>
-    <%=current_user.resume_document.attachment_url%>
-    <%= button_to 'View Resume', resume_document_path(current_user), :class=>"button", :method=>:get %>
+<div class="row align-center">
+  <div class="column small-6 text-center">
+    <h3>Welcome To Skill Scanner!</h3>
     <br>
-    <%= button_to 'Top 5 Jobs', top_job_jobs_path(current_user), :class=>"button", :method=>:get %>
-  <% else %>
-    <%= button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method => :get %>
-  <% end %>
-  <br>
-  <%=button_to 'View Jobs Applied To', my_index_jobs_path(current_user), :class=>"button", :method=>:get %>
-<% end %>
-<% if employer_signed_in? %>
-  <h3> Welcome <%= current_employer.companyName %> Company </h3>
-  <%= current_employer.email %>
-  <%= button_to 'Post a Job', new_job_path, :class=>"button", :method => :get %>
-  <% if current_employer.jobs %>
-    <%= button_to 'View My Job Postings', my_index_jobs_path(current_employer), :class=>"button", :method=>:get %>
-  <% end %>
-<% end %>
-
-<br>
-<%= button_to 'View Jobs', all_index_jobs_path, :class=>"button", :method => :get %>
-
+      <h4>How does it work?</h4>
+        <h6><u>Job Seekers</u></h6>
+          <p>Upload your resume.  Your resume is then analyzed to see what skills and experience you possess.  Then click on a job that interests you.  Your skills will be compared to what the company is looking for and will give you a breakdown of your match.  If you prefer thier is also a top 5 match.  This will return to you the top 5 jobs that you qualify for.  You can apply through the website or directly if the employer has posted a link.</p> 
+        <h6><u>Employers</u></h6>
+          <p>Create a job posting and upload a copy of your job posting.  We then analyze the document and figure out who the best candidates for the position are.  Job seekers can also apply directly to jobs if they are interested.  If you prefer individuals to apply directly at your website please include a link when posting a job.</p>
+      <h4>About</h4>
+        <h6><u>Who Created this project?</u></h6>
+          <p>This project was created by Guillermo Gomez in collaboration with HPE employees Naomi Miller, Bracia Sims, Chelsey Marr, and Nan Zhang.</p>
+        <h6><u>Purpose of this project</u></h6>
+          <p>This was a project that was proposed to me by HPE at the begining of the semester in my senior capstone class.  The point of this project is to show off what I can since starting my degree as a Computer Information Systems Major (CINS).</p>
+        <h6><u>The Nitty-gritty</u></h6>
+          <h6>Gems:</h6>
+            <p> Havenondemand - API used to format uploaded documents and also provide a portal to viewing uploaded documents on the website</p>
+            <p> Devise - for user login.</p>
+            <p> Sidekiq - for background processing of calculations</p>
+            <p> Carrierwave - for uploading documents and storing them on the server</p>
+            <p> Foundation - for styleing the website</p>
+          <br>
+  </div>
+</div>

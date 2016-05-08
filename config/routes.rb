@@ -7,12 +7,17 @@ Rails.application.routes.draw do
       get 'my_index'
       get 'all_index'
       get 'top_job'
+      get 'user_show_view'
       scope ":id" do
         get 'applicants'
       end
     end
   end
-  resources :resume_documents
+  resources :resume_documents do
+    collection do
+      get 'employer_show_view'
+    end
+  end
   root "home#index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

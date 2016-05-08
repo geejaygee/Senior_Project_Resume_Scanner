@@ -30,12 +30,13 @@ end
 
 def jobs
 {"technology"=>{"Software Engineer"=>/(?i)(SOFTWARE ENGINEER)/,
-                "Computer Repair"=>/(?i)(COMPUTER REPAIR)/},
+                "Computer Repair"=>/(?i)(COMPUTER REPAIR)/,
+                 "Technician"=>/(?i)(TECHNICIAN)/},
 "customer service"=>{"Cashier"=>/(?i)(CASHIER)/,
                      "Customer Service Representative"=>/(?i)(CUSTOMER SERVICE REPRESENTATIVE)/,
                      "Sales"=>/(?i)(SALES)/},
-"test"=>{"Intern"=>/(?i)(INTERN)/},
-"test2"=>{"Volunteeer"=>/(?i)(VOLUNTEER)/}
+"Temporary"=>{"Intern"=>/(?i)(INTERN)/,
+              "Volunteeer"=>/(?i)(VOLUNTEER)/}
 }
 end
 
@@ -47,7 +48,7 @@ def certification
 "Microsoft Certified Solutions Developer"=>/\b(?i)(MCSD)|(MICROSOFT CERTIFIED SOLUTIONS DEVELOPER)\b/,
 "cisco certified internetwork expert"=>/\b(?i)(CCIE)|(CISCO CERTIFIED INTERNETWORK EXPERT)\b/,
 "cisco certified security professional"=>/\b(?i)(CCSP)|(CISCO CERTIFIED SECURITY PROFESSIONAL)\b/,
-"certified information systems security professinal"=>/\b(?i)(CISSP)|(CERTIFIED INFORMATION SYSTEMS SECURITY PROFESSIONAL)\b/,
+"certified information systems security professional"=>/\b(?i)(CISSP)|(CERTIFIED INFORMATION SYSTEMS SECURITY PROFESSIONAL)\b/,
 "Sun Certified Enterprise Architect"=>/\b(?i)(SCEA)|(SUN CERTIFIED ENTERPRISE ARCHITECT)\b/,
 "Sun Certified Java Programmer"=>/\b(?i)(SCJP)|(SUN CERTIFIED JAVA PROGRAMMER)\b/,
 "systems security certified practitioner"=>/\b(?i)(SSCP)|(SYSTEMS SECURITY CERTIFIED PRACTITIONER)\b/,

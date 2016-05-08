@@ -13,7 +13,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require foundation
-//= require turbolinks
 //= require_tree .
-
+//= require jquery-ui
 $(function(){ $(document).foundation(); });
+//=require turbolinks
+
+jQuery(function($){
+$("tr[data-link]").click(function() {
+  window.location=this.dataset.link
+});
+})

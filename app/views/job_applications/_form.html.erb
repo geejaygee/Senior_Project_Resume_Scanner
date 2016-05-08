@@ -13,8 +13,8 @@
 
 <%= x.hidden_field :user_id, value: current_user.id %>
 <%= x.hidden_field :job_id, value: @job.id %>
-<div class="actions">
-  <%= x.submit 'Apply' %>
-</div>
+<span class="actions">
+  <%= x.submit 'Apply', :class=>"button" %>
+</span>
 <% end %>
 

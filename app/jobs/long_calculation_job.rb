@@ -13,9 +13,13 @@ class LongCalculationJob < ActiveJob::Base
     experience=experience_calc(sometext)
     skills=Array.new
     skills=analyze(sometext)
+    certification=Array.new
+    certification=find_certification(sometext)
     education=Array.new
     education=education(sometext)
-    myhash={"education"=>education, "experience"=>experience, "skills"=>skills}
+    skill_group=Array.new
+    skill_group=flag_set(skills)
+    myhash={"education"=>education, "experience"=>experience, "certification"=>certification, "skills"=>skills, "skill group"=>skill_group}
       File.open('public'+File.dirname(resume_file)+'/data'+@user.id.to_s+'.json', "w+") do |f|
         f.write(JSON.generate(myhash))
       end

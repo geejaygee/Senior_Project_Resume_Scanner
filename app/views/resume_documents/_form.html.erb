@@ -10,11 +10,26 @@
         </ul>
     </div>
   <% end %>
-  <div class="field">
-    <%= f.label :attachment%><br>
-    <%= f.file_field :attachment %>
-  </div>
-  <div class="field">
-    <%= f.submit 'Upload Resume'%>
+
+    <div class="row align-center">
+      <div class="small-4 columns">
+      </div>
+      <div class="column small-4">
+        <center>
+        <div class="field">
+          <%= f.file_field :attachment, :required=>'required' %>
+        </div>
+        </center>
+      </div>
+      <div class="small-4 columns">
+      </div>
+    </div>
+
+  <div class="row align-center">
+    <div class="column small-4 text-center">
+      <div class="field">
+        <%= f.submit 'Upload Resume', :class=>"button"%>
+      </div>
+    </div>
   </div>
 <% end %>

@@ -2,12 +2,26 @@ class ResumeDocumentsController < ApplicationController
   before_action :set_resume, only: [:edit, :update, :destroy]
   load "#{Rails.root}/lib/text_analyze.rb"
   load "#{Rails.root}/lib/experience_calculation.rb"
+
   def show
+    if employer_signed_in?
+      redirect_to employer_show_view_resume_documents_path(:id=>params[:id], :job_id=>params[:job_id])
+    end
     @user=User.find(params[:id])
-    goodstuff=$client.post('extracttext', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')})
-    yourjson=goodstuff.json()
-    @sometext=yourjson["document"][0]["content"]
+     if (File.file?("#{Rails.root}/#{@user.resume_document.datafile}")) 
+       @resume_hash=JSON.parse(IO.read("#{Rails.root}/#{@user.resume_document.datafile}"))
+     else
+       redirect_to root_path
+     end
+  end
+  
+  def employer_show_view
+    @user=User.find(params[:id])
     @resume_hash=JSON.parse(IO.read("#{Rails.root}/#{@user.resume_document.datafile}"))
+    @job=Job.find(params[:job_id])
+    @job_data=JSON.parse(IO.read("#{Rails.root}/#{@job.datafile}"))
+    @matching_data=matching(@job_data, @resume_hash)
+    @result_hash=compare(@matching_data)
   end
 
   def new
@@ -15,19 +29,15 @@ class ResumeDocumentsController < ApplicationController
   end
 
   def create
-    if (params[:resume_document][:attachment]).blank?
-      redirect_to new_resume_document_path, notice: 'Resume cannot be blank.'
-    else
       @resume=ResumeDocument.new(resume_params)
       @resume.filename=File.basename(@resume.attachment_url)
       @resume.user=current_user
       if @resume.save
-        LongCalculationJob.perform_later(@resume.user)
+        LongCalculationJob.perform_later(@resume.user.id)
         redirect_to root_path, notice: 'Resume was successfully uploaded.'
       else
         render :new
       end
-    end
   end
 
   def destroy

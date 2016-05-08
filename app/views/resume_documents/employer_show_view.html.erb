@@ -1,0 +1,268 @@
+<div class="row align-center">
+  <div class="column small-10 text-center">
+   <h2><%=@user.name%></h2>
+   <h3><%=@user.email%></h3>
+  </div>
+</div>
+  <ul class="tabs" data-tabs id="resume-tabs">
+    <li class="tabs-title is-active"><a href="#ResumePanel"><%=@user.name%>'s Resume</a></li>
+    <li class="tabs-title"><a href="#StatPanel"><%=@user.name%>'s Statistics</a></li>
+   </ul>
+
+    <div class="tabs-content" data-tabs-content="resume-tabs">
+      <div class="tabs-panel is-active" id="ResumePanel">
+        <% r=$client.post('viewdocument', {:mode=>'document', :file=>open('public' + @user.resume_document.attachment_url,'r')}) %>
+        <div class="row align-center">
+          <div class="column small-10 text-center">
+            <iframe srcdoc="<%=r.json%>" width="900" height="1000" style="border-style: solid; border-width: 10px; border-color:#425563;"><p>Your browser does not support iframes.</p></iframe>
+          </div>
+        </div>
+        <div class="row align-center">
+          <div class="column small-6 text-center">
+            <% if current_user==@user %>
+              <%= button_to "Delete", @user.resume_document, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs-panel" id="StatPanel">
+        <ul class="tabs" data-tabs id="statistics-tabs">
+          <li class="tabs-title is-active"><a href="#AllPanel">All</a></li>
+          <li class="tabs-title"><a href="#ExperiencePanel">Experience</a></li>
+          <li class="tabs-title"><a href="#EducationPanel">Education</a></li>
+          <li class="tabs-title"><a href="#SkillsPanel">Skills</a></li>
+        </ul>
+
+        <div class="tabs-content" data-tabs-content="statistics-tabs">
+          <div class="tabs-panel is-active" id="AllPanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <h3>Match</h3>
+                  <%=@result_hash["total"]%>%
+                <h3>Experience</h3>
+                <%@resume_hash["experience"].each do |exp|%>
+                  <%if (@job_data["industry"]==exp["industry"]) && (@job_data["experience"]>=exp["industry"])%>
+                    <div id="blue">
+                      Industry: <%=exp["industry"]%><br>
+                      Position: <%=exp["position"]%><br>
+                      Experience: <%=exp["experience"]%> years<br>
+                    </div>
+                  <%else%>
+                    Industry: <%=exp["industry"]%><br>
+                    Position: <%=exp["position"]%><br>
+                    Experience: <%=exp["experience"]%> years<br>
+                  <%end%>  
+                  <br>
+                <% end %>
+                <%if @matching_data["experience"].values.include?(false)%>
+                  <h3>Missing Experience</h3>
+                  <div id="red">
+                    <%=@job_data["experience"]["start"]%>
+                    <%if @job_data["experience"]["end"]<100%>
+                      to <%=@job_data["experience"]["end"]%> years experience in the <%=@job_data["industry"]%> industry
+                    <%else%>
+                      or more years experience in the <%=@job_data["industry"]%> industry
+                    <%end%>
+                  </div>
+                <%end%>
+
+                <h3>Education</h3>
+                <%@resume_hash["education"].each do |edu| %>
+                  <%contain=false%>
+                  <%@job_data["education"].each do |job|%>
+                    <%if (edu["type"]==job["type"]) && (edu["level"]==job["level"])%>
+                      <%contain=true%>
+                    <%end%>
+                  <%end%>
+                  <%if contain==true%>
+                    <div id="blue">
+                      Level: <%=edu["level"]%><br>
+                      Degree: <%=edu["degree"]%><br>
+                      Type: <%=edu["type"]%><br>
+                      <%if edu["time"]>0%>
+                        Time since graduation: <%=edu["time"]%><br>
+                      <%elsif edu["time"]<0%>
+                        Time until graduation: <%=edu["time"].abs%><br>
+                      <%end%>
+                    </div>
+                  <%else%>
+                      Level: <%=edu["level"]%><br>
+                      Degree: <%=edu["degree"]%><br>
+                      Type: <%=edu["type"]%><br>
+                      <%if edu["time"]>0%>
+                        Time since graduation: <%=edu["time"]%><br>
+                      <%elsif edu["time"]<0%>
+                        Time until graduation: <%=edu["time"].abs%><br>
+                      <%end%>
+                  <%end%>
+                <%end%>
+                <%if !@matching_data["education"].values.include?(true)%>
+                  <h3>Missing Education</h3>
+                  <div id="red">
+                  <%@job_data["education"].each do |edu|%>
+                    <%=edu["level"]%> in <%=edu["degree"]%><br>
+                  <%end%>
+                  </div>
+                <%end%>
+
+                <h3>Skills</h3>
+                <%@resume_hash["skills"].each do |skill| %>
+                  <%contain=false%>
+                  <%@job_data["skills"].each do |job_skill|%>
+                    <%if job_skill==skill%>
+                      <%contain=true%>
+                    <%end%>
+                  <%end%>
+                  <%if contain==true%>
+                    <div id="blue">
+                      <%=skill%><br>
+                    </div>
+                  <%else%>
+                    <%=skill%><br>
+                  <%end%>
+                <% end %>
+                <%if @matching_data["skills"].values.include?(false)%>
+                <h3>Missing Skills</h3>
+                  <%@matching_data["skills"].each do |skill, value|%>
+                    <div id="red">
+                    <%if value==false%>
+                      <%=skill%><br>
+                    <%end%>
+                    </div>
+                  <%end%>
+                <%end%>
+
+              </div>
+            </div>
+          </div>
+          <div class="tabs-panel" id="ExperiencePanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <h3>Match</h3>
+                <%=@result_hash["experience"]%>%<br>
+                <h3>Experience</h3>
+                <%@resume_hash["experience"].each do |exp|%>
+                  <%if (@job_data["industry"]==exp["industry"]) && (@job_data["experience"]>=exp["industry"])%>
+                    <div id="blue">
+                      Industry: <%=exp["industry"]%><br>
+                      Position: <%=exp["position"]%><br>
+                      Experience: <%=exp["experience"]%> years<br>
+                    </div>
+                  <%else%>
+                    Industry: <%=exp["industry"]%><br>
+                    Position: <%=exp["position"]%><br>
+                    Experience: <%=exp["experience"]%> years<br>
+                  <%end%>
+                  <br>
+                <% end %>
+                <%if @matching_data["experience"].values.include?(false)%>
+                  <h3>Missing Experience</h3>
+                  <div id="red">
+                    <%=@job_data["experience"]["start"]%>
+                    <%if @job_data["experience"]["end"]<100%>
+                      to <%=@job_data["experience"]["end"]%> years experience in the <%=@job_data["industry"]%> industry
+                    <%else%>
+                      or more years experience in the <%=@job_data["industry"]%> industry
+                    <%end%>
+                  </div>
+                <%end%>
+              </div>
+            </div>
+          </div>
+
+          <div class="tabs-panel" id="EducationPanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <h3>Match</h3>
+                <%=@result_hash["education"]%>%<br>
+                <h3>Education</h3>
+                <%@resume_hash["education"].each do |edu| %>
+                  <%contain=false%>
+                  <%@job_data["education"].each do |job|%>
+                    <%if (edu["type"]==job["type"]) && (edu["level"]==job["level"])%>
+                      <%contain=true%>
+                    <%end%>
+                  <%end%>
+                  <%if contain==true%>
+                    <div id="blue">
+                      Level: <%=edu["level"]%><br>
+                      Degree: <%=edu["degree"]%><br>
+                      Type: <%=edu["type"]%><br>
+                      <%if edu["time"]>0%>
+                        Time since graduation: <%=edu["time"]%><br>
+                      <%elsif edu["time"]<0%>
+                        Time until graduation: <%=edu["time"].abs%><br>
+                      <%end%>
+                    </div>
+                  <%else%>
+                      Level: <%=edu["level"]%><br>
+                      Degree: <%=edu["degree"]%><br>
+                      Type: <%=edu["type"]%><br>
+                      <%if edu["time"]>0%>
+                        Time since graduation: <%=edu["time"]%><br>
+                      <%elsif edu["time"]<0%>
+                        Time until graduation: <%=edu["time"].abs%><br>
+                      <%end%>
+                  <%end%>
+                <%end%>
+                <%if !@matching_data["education"].values.include?(true)%>
+                  <h3>Missing Education</h3>
+                  <div id="red">
+                  <%@job_data["education"].each do |edu|%>
+                    <%=edu["level"]%> in <%=edu["degree"]%><br>
+                  <%end%>
+                  </div>
+                <%end%>
+              </div>
+            </div>
+          </div>
+
+          <div class="tabs-panel" id="SkillsPanel">
+            <div class="row align-center">
+              <div class="column small-6 text-center">
+                <h3>Match</h3>
+                  <%=@result_hash["skills"]%>%<br>
+                <h3>Skills</h3>
+                <%@resume_hash["skills"].each do |skill| %>
+                  <%contain=false%>
+                  <%@job_data["skills"].each do |job_skill|%>
+                    <%if job_skill==skill%>
+                      <%contain=true%>
+                    <%end%>
+                  <%end%>
+                  <%if contain==true%>
+                    <div id="blue">
+                      <%=skill%><br>
+                    </div>
+                  <%else%>
+                    <%=skill%><br>
+                  <%end%>
+                <% end %>
+                <%if @matching_data["skills"].values.include?(false)%>
+                <h3>Missing Skills</h3>
+                  <%@matching_data["skills"].each do |skill, value|%>
+                    <div id="red">
+                    <%if value==false%>
+                      <%=skill%><br>
+                    <%end%>
+                    </div>
+                  <%end%>
+                <%end%>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row align-center">
+          <div class="column small-6 text-center">
+            <h4>Legend</h4>
+            <div id=blue>
+              Requirement met
+            </div>
+            <div id=red>
+              Requirement not met
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

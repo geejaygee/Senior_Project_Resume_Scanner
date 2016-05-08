@@ -3,7 +3,7 @@ def programing_words
 "bash"=>/\b(?i)(BASH)| (BASH SHELL)\b/,
 "shell"=>/\b(?i)SHELL\b/,
 "ssl"=>/\b(?i)SSL\b/,
-"san"=>/\b(?i)(SAN)|STORAGE AREA NETWORKS\b/,
+"san"=>/\b(?i)(S\.A\.N\.)|STORAGE AREA NETWORKS\b/,
 "ruby"=>/\b(?i)ruby\b/,
 "c"=>/\b(?i)c\b/,
 "c#"=>/\b(?i)c\#/,

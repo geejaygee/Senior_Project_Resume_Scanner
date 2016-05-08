@@ -1,20 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<div id="user_nav">
-<% if user_signed_in? %>
-  Signed in as <%=current_user.email %>. Not you?
-  <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-<% elsif employer_signed_in? %>
-  <%= link_to "Sign Out", destroy_employer_session_path, :method=> :delete %>
-<% else %>
-  <%= link_to "Sign up", new_user_registration_path %> or
-  <%= link_to "Sign in", new_user_session_path %>
-  <br>
-  Employers Sign in here:
-  <%= link_to "Sign up", new_employer_registration_path %> or
-  <%= link_to "Sign in", new_employer_session_path %>
-<% end %>
-</div>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,11 +9,79 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
-  </head>
-
+  <head>
   <body>
-
+  <header>
+  <div>
+    <h1> Skill Scanner <%=image_tag 'magnify_glass.jpg', size:"50x50"%></h1>
+  </div>
+    <div data-sticky-container>
+    <div class="sticky" data-sticky data-options="marginTop:0;" style="width:100%">
+      <nav class="top-bar" data-topbar role="navigation">
+        <div class="top-bar-left">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <li class="divider"></li>
+            <li><%= link_to 'Home', root_path, :method=>:get%></li>
+            <% if user_signed_in? %>
+              <% if current_user.resume_document %>
+                <li class="divider"></li>
+                <li><%= link_to 'View Resume', resume_document_path(current_user), :method=>:get %></li>
+                <li class="divider"></li>
+                <li><%= link_to 'Top 5 Jobs', top_job_jobs_path(current_user), :method=>:get %></li>
+              <% else %>
+                <li class="divider"></li>
+                <li><%= link_to 'Upload Resume', new_resume_document_path, :method => :get %></li>
+              <% end %>
+              <li class="divider"></li>
+              <li><%=link_to 'View Jobs Applied To', my_index_jobs_path(current_user), :method=>:get %></li>
+            <% end %>
+            <% if employer_signed_in? %>
+              <li class="divider"></li>
+              <li><%= link_to 'Post a Job', new_job_path, :method => :get %></li>
+              <% if current_employer.jobs %>
+                <li class="divider"></li>
+                <li><%= link_to 'View My Job Postings', my_index_jobs_path(current_employer), :method=>:get %></li>
+              <% end %>
+            <% end %>
+            <li class="divider"></li>
+            <li><%= link_to 'View Jobs', all_index_jobs_path, :method => :get %></li>
+          </ul>
+        </div>
+        <div class="top-bar-right">
+          <ul class="dropdown menu" data-dropdown-menu>
+            <% if user_signed_in? %>
+              <li>  
+                <a href="#"><%=current_user.name%></a>
+                  <ul class="menu vertical">
+                    <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
+                  </ul>
+              </li>
+            <% elsif employer_signed_in? %>
+              <li>
+                <a href="#"><%=current_employer.companyName%></a>
+                <ul class="menu vertical">
+                  <li><%= link_to "Sign Out", destroy_employer_session_path, :method=> :delete %></li>
+                </ul>
+              </li>
+            <% else %>
+              <li>
+               <a href="#"> Sign In</a>
+                <ul class="menu vertical">
+                  <li><%= link_to "Users", new_user_session_path %></li>
+                  <li><%= link_to "Employers", new_employer_session_path %></li>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    </div>
+</header>
     <%= yield %>
 
   </body>
+
+<nav class="top-bar" data-topbar role="navigation" id="footer">
+</nav>
 </html>

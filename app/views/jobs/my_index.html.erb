@@ -1,34 +1,77 @@
-<h1> My Jobs </h1>
+<div class="row align-center">
+  <div class="column small-6 text-center">
+    <h1> My Jobs </h1>
+  </div>
+</div>
 <% if user_signed_in? %>
   <% if current_user.job_applications.size >= 1 %>
-    <% current_user.job_applications.each do |application| %>
-      <%=link_to application.job.position, application.job, :method=>:get %>
-      <br>
-      <%=application.job.employer.companyName%>
-      <br>
-      ---------------------------------------------
-      <br>
-    <% end %>
+    <div class="row align-center">
+    <div class="columns small-10 text-center">
+    <table class="hover">
+      <thread>
+        <tr>
+          <th style="text-align: center"> Position </th>
+          <th style="text-align: center">Company</th>
+          <th style="text-align: center"> Date Applied </th>
+        </tr>
+      </thread>
+      <tbody>
+      <% current_user.job_applications.each do |application| %>
+        <tr class="clickableRow" data-link="<%=job_path(application.job)%>">
+          <td>
+            <%=application.job.position%>
+          </td>
+          <td>
+            <%= application.job.employer.companyName%>
+          </td>
+          <td>
+            <%=application.created_at.strftime("%m/%d/%Y")%>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+    </div>
   <% else %>
-    You havent applied to any jobs
+  <div class="row align-center">
+    <div class="column small-6 text-center">
+      You havent applied to any jobs
+    </div>
+  </div>
   <% end %>
 <% else %>
   <% if current_employer.jobs.size >= 1 %>
-    <% current_employer.jobs.each_with_index do |job, index| %>
-      <%= link_to job.position, job, :method=>:get %> 
-      <br>
-      <%= job.filename %>
-      <br>
-      <%= job.attachment %>
-      <br>
-      <%= link_to "Applicants", applicants_jobs_path(job), :method=>:get %>
-      <br>
----------------------------------------------------
-    <br>
-    <% end %>
+  <div class="row align-center">
+    <div class="columns small-10 text-center">
+    <table class="hover">
+      <thread>
+        <tr>
+          <th style="text-align: center"> Position </th>
+          <th style="text-align: center"></th>
+          <th style="text-align: center"> Date Posted </th>
+        </tr>
+      </thread>
+      <tbody>
+      <% current_employer.jobs.each_with_index do |job, index| %>
+        <tr>
+          <td>
+            <%=link_to job.position, job_path(job), :method=>:get%> 
+          </td>
+          <td>
+            <%= link_to "View Applicants", applicants_jobs_path(job), :method=>:get %>
+          </td>
+          <td>
+            <%=job.created_at.strftime("%m/%d/%Y")%>
+          </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+    </div>
+    </div>
   <% else %>
   Post a Job Now!
   <%= button_to 'Post a Job', new_job_path, :class=>"button", :method=>:get %>
   <% end %>
 <% end %>
-<%= button_to 'Home', root_path, :class=>"button", :method => :get %>

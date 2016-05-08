@@ -1,23 +1,31 @@
-<h1> All Jobs </h1>
+<div class="row align-center">
+  <div class="column small-6 text-center">
+    <h1> All Jobs </h1>
+  </div>
+</div>
 <% if @jobs.size < 1 %>
 Sorry, currently no jobs posted 
 <% else %>
-  <% @employers.each do |employer| %>
-    <% employer.jobs.each do |job| %>
-      <%= link_to job.position, job, :method=>:get %>
-      <br>
-      <%=job.job_type%>
-      <br>
-      <%=employer.companyName %>
-      <br>
-      <% if job.description %>
-        <%=job.description%>
-        <br>
-      <% end %>
----------------------------------------------------
-    <br>
-    <% end %>
-    <br>
-  <% end %>
+  <div class="row align-center">
+    <div class="column small-12 text-center">
+    <table class="hover">
+      <tbody>
+      <% @employers.each do |employer| %>
+        <% employer.jobs.each do |job| %>
+          <tr class="clickableRow" data-link="<%=job_path(job)%>">
+           <td> <article>
+             <h3 class="positionName"><%=job.position%></h3>
+             <h4 class="employerName"><%=employer.companyName%></h4>
+              <% if job.description %>
+                <p><%=job.description%></p>
+              <% end %>
+              <h6><%=job.job_type%></h6>
+            </article></td>
+          </tr>
+        <%end%>
+      <%end%>
+      </tbody>
+    </table>
+    </div>
+  </div>
 <% end %>
-<%= button_to 'Home', root_path, :class=>"button", :method => :get %>

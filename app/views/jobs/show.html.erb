@@ -1,86 +1,120 @@
-<br>
-  <% if @job %>
-    <h1><%= @job.position %></h1>
-    <br>
-********************************
-Testing:
-<br>
-      Experience required: <%=@job_data["experience"]["start"]%> to <%=@job_data["experience"]["end"]%> years <br>
-    <br> Skills:<br>
-    <%@job_data["skills"].each do |skill| %>
-      <%=skill%>, 
-    <% end %>
-<br>
-<br>
-    <%@job_data["education"].each do |edu|%>
-      Degree: <%=edu["degree"]%><br>
-      Type: <%=edu["type"]%><br>
-      Level: <%=edu["level"]%><br>
-      <br>
-    <% end %>
-    <br>
-    <br>
-    JSON Full: <%= @job_data%>
-    <br>
-    <% if user_signed_in? %>
-      <% if current_user.resume_document %>
-        You match this job <%=(@result*100).to_i%>  %
-        <br>
-----------------------------------------------------
-<br>
-TESTING
-<br>
-Your words:
-        <% @resume_words.each do |word| %>
-          <%=word%>,
-        <% end %>
-<br>
-***********************************
-Your flags:
-<br>
-        <% @myflag.each do |key, value| %>
-          <% if value==true %>
-           True flag found:
-            <%=key%>
-          <br>
-          <% else %>
-          False flag Found:
-            <%=key %>
-            <br>
-          <% end %>
-        <% end %>
-**************************************
-----------------------------------------------------
-<br>
-        <% if @applied==false %>
-        <%= render 'job_applications/form' %>
-        <% if @job.hyperlink %>
-          or you can apply directly at:
-        <% end %>
-        <% else %>
-          You have already applied to this position.
-        <% end %>
-      <% else %>
-        Upload a Resume to Apply! <%=button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method=>:get %> 
-        <br>
-      <% end %>
-    <% end %>
-    <% if @job.hyperlink %>
-      <%=link_to @job.hyperlink, @job.hyperlink %>
-    <% end %>
-    <br>
-    <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
-    <div align: center>
-    <iframe srcdoc="<%=r.json%>" width="800" height="600" style="border:5px dotted green"></iframe>
+<% if !@job %>
+  <div class="row align-center">
+    <div class="column small-6 text-center">
+      An Error has occured.  Couldn't find job.
     </div>
-    <br>
-    <% if @job.employer==current_employer %>
-      <%= button_to "Delete", @job, :class=>"button", method: :delete, confirm: "Are you sure?" %>
-    <% end %>  
+  </div>
+<% else %>
+  <% if !@job_data %>
+  <div class="row align-center">
+    <div class="column small-6 text-center">
+      Still analyzing document.  Try again in 10 seconds.
+    </div>
+  </div>
   <% else %>
-    <%= button_to 'Create a Job Posting', new_job_path, :class=>"button", :method => :get %>
-  <% end %>
-  <br>
-<%= button_to 'Home', root_path, :class=>"button", :method => :get %>
+    <div class="row align-center">
+      <div class="column small-6 text-center">
+        <h2><%= @job.position %></h2>
+        <h3><i><%=@employer.companyName %></i></h3>
+      </div>
+    </div>
+    <ul class="tabs" data-tabs id="job-tabs">
+      <li class="tabs-title is-active"><a href="#DocPanel">Document</a></li>
+      <li class="tabs-title"><a href="#ReqPanel">Requirements</a></li>
+    </ul>
 
+     <div class="tabs-content" data-tabs-content="job-tabs">
+       <div class="tabs-panel is-active" id="DocPanel">
+         <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
+         <div class="row align-center">
+           <div class="column small-10 text-center">
+             <iframe srcdoc="<%=r.json%>" width="900" height="1000" style="border-style: solid; border-width: 10px; border-color:#425563;"></iframe>
+           </div>
+         </div>
+       </div>
+
+       <div class="tabs-panel" id="ReqPanel">
+         <ul class="tabs" data-tabs id="job-requirements-tabs">
+           <li class="tabs-title is-active"><a href="#AllReq">All</a></li>
+           <li class="tabs-title"><a href="#ExperienceReq">Experience</a></li>
+           <li class="tabs-title"><a href="#EducationReq">Education</a></li>
+           <li class="tabs-title"><a href="#SkillReq">Skills</a></li>
+         </ul>
+
+         <div class="tabs-content" data-tabs-content="job-requirements-tabs">
+           <div class="tabs-panel is-active" id="AllReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+
+                 <h3>Experience</h3>
+                 <%=@job_data["experience"]["start"]%>
+                 <% if @job_data["experience"]["end"]<100%>
+                   to <%=@job_data["experience"]["end"]%> years experience
+                 <%else%>
+                   or more years experience
+                 <%end%>
+                 <br>
+
+                 <h3>Education</h3>
+                 <%@job_data["education"].each do |edu|%>
+                   <%= edu["level"]%> in <%=edu["degree"]%><br>
+                 <%end%>
+  
+                 <h3>Skills</h3>
+                 <%@job_data["skills"].each do |skill|%>
+                     <%=skill%><br>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+           <div class="tabs-panel" id="ExperienceReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+                 <h3>Experience</h3>
+                 <%=@job_data["experience"]["start"]%>
+                 <% if @job_data["experience"]["end"]<100%>
+                   to <%=@job_data["experience"]["end"]%> years experience
+                 <%else%>
+                   or more years experience<br>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+           <div class="tabs-panel" id="EducationReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+                 <h3>Education</h3>
+                 <%@job_data["education"].each do |edu|%>
+                   <%= edu["level"]%> in <%=edu["degree"]%><br>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+           <div class="tabs-panel" id="SkillReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+                 <h3>Skills</h3>
+                 <%@job_data["skills"].each do |skill|%>
+                   <%=skill%><br>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+         </div>
+       </div>
+     </div>
+  <%end%>
+<%end%>
+
+<div class="row align-center">
+  <div class="column small-6 text-center">
+  <% if @job.employer==current_employer %>
+    <%= button_to "Delete This Posting", @job, :class=>"button", method: :delete, confirm: "Are you sure?" %>
+  <% end %>
+  </div>
+</div>
 

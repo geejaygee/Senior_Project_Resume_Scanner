@@ -25,7 +25,7 @@ def experience_calc(resume_text)
             hash=Hash.new
             hash["industry"]=key
             hash["position"]=pos[0]
-            hash["experience"]=total
+            hash["experience"]=(((total.to_f)/365).round(2))
             array.push(hash)
           elsif ((experience_end=resume_text.scan(/(((\d{1,2})(\/|\-)(\d{1,2})(\/|\-)(\d{4}|\d{1,2}))|((?i)((SPRING)|(SUMMER)|(FALL)|(AUTUMN)|(WINTER)|(JANUARY)|(JAN\.?)|(FEBRUARY)|(FEB\.?)|(MARCH)|(MAR\.?)|(APRIL)|(APR\.?)|(MAY)|(JUNE)|(JUN\.?)|(JULY)|(JUL\.?)|(AUGUST)|(AUG\.?)|(SEPTEMBER)|(SEPT\.?)|(OCTOBER)|(OCT\.?)|(NOVEMBER)|(NOV\.?)|(DECEMBER)|(DEC\.?))(\s|\-|\/)?(\d{2}|\d{1})(\,)?(\s|\-|\/)?(\d{4}|\d{2}))|(\d{4})|((?i)(PRESENT)))(?:\s|\.|\,|\-|\–)*(?:(\w*(\,|\.|\-)?\s){5})(?:(?!(?i)(?:SPRING)|(?:SUMMER)|(?:FALL)|(?:AUTUMN)|(?:WINTER))\w*\b\,?\.?\-?\s?){,5}(?=(?i)#{pos[0]})/)).size!=0)
             total=0
@@ -45,7 +45,7 @@ def experience_calc(resume_text)
             hash=Hash.new
             hash["industry"]=key
             hash["position"]=ind[0]
-            hash["experience"]=total
+            hash["experience"]=(((total.to_f)/365).round(2))
             array.push(hash)
           end
         end
@@ -63,6 +63,10 @@ def job_industry(position, job_text)
     if flag==false
       hash.each do |key2, regex|
         if (position=~regex)
+          industry=key
+          flag=true
+        end
+        if job_text.match(regex)
           industry=key
           flag=true
         end

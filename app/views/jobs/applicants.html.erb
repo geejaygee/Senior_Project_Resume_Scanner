@@ -1,7 +1,7 @@
 <h1> Applicants for <%= @job.position %> </h1> 
 <% if @job.job_applications.size >= 1 %>
     <% @job.job_applications.each do |application| %>
-      <%=link_to application.user.name, resume_document_path(application.user.id), :method=>:get %>
+      <%=link_to application.user.name, resume_document_path(:id=>application.user.id,:job_id=>@job.id), :method=>:get %>
       <br>
       ---------------------------------------------
       <br>

@@ -1,0 +1,391 @@
+Job: <%=@job%>
+<br>
+Job ID:<%=@job.id%>
+<% if !@job %>
+  <div class="row align-center">
+    <div class="column small-6 text-center">
+      An Error has occured.  Couldn't find job.
+    </div>
+  </div>
+<% else %>
+  <% if !@job_data %>
+  <div class="row align-center">
+    <div class="column small-6 text-center">
+      Still analyzing document.  Try again in 10 seconds.
+    </div>
+  </div>
+  <% else %>
+    <div class="row align-center">
+      <div class="column small-6 text-center">
+        <h2><%= @job.position %></h2>
+        <h3><i><%=@employer.companyName %></i></h3>
+RESUME HASH:<%=@resume_data%>
+<br>
+<br>
+JOB HASH:<%=@job_data%>
+<br>
+<br>
+Matching:<%=@matching_data%>
+<br>
+<br>
+SCORE: <%=@result_hash%>
+<br>
+      </div>
+    </div>
+    <ul class="tabs" data-tabs id="job-tabs">
+      <li class="tabs-title is-active"><a href="#DocPanel">Document</a></li>
+      <li class="tabs-title"><a href="#ReqPanel">Requirements</a></li>
+    </ul>
+
+     <div class="tabs-content" data-tabs-content="job-tabs">
+       <div class="tabs-panel is-active" id="DocPanel">
+         <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
+         <div class="row align-center">
+           <div class="column small-10 text-center">
+             <iframe srcdoc="<%=r.json%>" width="900" height="1000" style="border-style: solid; border-width: 10px; border-color:#425563;"></iframe>
+           </div>
+         </div>
+       </div>
+
+       <div class="tabs-panel" id="ReqPanel">
+         <ul class="tabs" data-tabs id="job-requirements-tabs">
+           <li class="tabs-title is-active"><a href="#AllReq">All</a></li>
+           <%if @job_data["experience"]["start"]!=0%>
+             <li class="tabs-title"><a href="#ExperienceReq">Experience</a></li>
+           <%end%>
+           <%if @job_data["education"].size!=0%>
+             <li class="tabs-title"><a href="#EducationReq">Education</a></li>
+           <%end%>
+           <%if @job_data["skills"].size!=0%>
+             <li class="tabs-title"><a href="#SkillReq">Skills</a></li>
+           <%end%>
+           <%if @job_data["certification"].size!=0%>
+             <li class="tabs-title"><a href="#CertReq">Certifications</a></li>
+           <%end%>
+         </ul>
+
+         <div class="tabs-content" data-tabs-content="job-requirements-tabs">
+           <div class="tabs-panel is-active" id="AllReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+                 <table>
+                   <thread>
+                     <tr>
+                       <th style="width: 50%; text-align: center">Actual Match</th>
+                       <%if @result_hash["estimated total"]!=false%>
+                         <th style="width: 50%; text-align: center">Estimated Match</th>
+                       <%end%>
+                     </tr>
+                   </thread>
+                   <tbody>
+                     <td><%=@result_hash["total"]%>%</td>
+                     <%if @result_hash["estimated total"]!=false%>
+                       <td><%=@result_hash["estimated total"]%>%</td>
+                     <%end%>
+                   </tbody>
+                 </table>
+
+                 <%if @job_data["experience"]["start"]!=0%>
+                 <h3>Experience</h3>
+                 <% if @matching_data["experience"]["start"]==true %>
+                   <span span style="display:inline;" id="blue">
+                     <%=@job_data["experience"]["start"]%>
+                   </span>
+                 <% else %>
+                   <span span style="display:inline;" id="red">
+                     <%=@job_data["experience"]["start"]%>
+                   </span>
+                 <% end %>
+                 <% if @job_data["experience"]["end"]<100%>
+                   <% if @matching_data["experience"]["end"]==true %>
+                     <span style="display:inline;" id="blue">
+                       to <%=@job_data["experience"]["end"]%> years experience
+                     </span>
+                   <% else %>
+                     <span span style="display:inline;" id="red">
+                       to <%=@job_data["experience"]["end"]%> years experience
+                     </span>
+                   <%end%>
+                 <%else%>
+                   <% if @matching_data["experience"]["end"]==true %>
+                     <span span style="display:inline;" id="blue">
+                       or more years experience
+                     </span>
+                   <%else%>
+                     <span span style="display:inline;" id="red">
+                       or more years
+                     </span>
+                   <%end%>
+                 <%end%>
+                 <%end%>                
+                 <br>
+
+                 <%if @job_data["education"].size!=0%>
+                   <h3>Education</h3>
+                   <%@job_data["education"].each do |edu| %>
+                     <% if @matching_data["education"][edu["level"]+edu["degree"]]==true %>
+                       <div id="blue">
+                         <%=edu["level"]%> in <%=edu["degree"]%>
+                       </div>
+                     <% else %>
+                       <div id="red">
+                         <%=edu["level"]%> in <%=edu["degree"]%>
+                       </div>
+                     <% end %>
+                   <%end%>
+                 <%end%>
+                 <br>
+  
+                 <%if @job_data["skills"].size!=0%>
+                   <h3>Skills</h3>
+                   <%@job_data["skills"].each do |skill|%>
+                     <% if @matching_data["skills"][skill]==true%>
+                       <div id="blue">
+                         <%=skill%>
+                       </div>
+                     <% else %>
+                       <div id="red">
+                         <%=skill%>
+                       </div>
+                     <%end%>
+                   <%end%>
+                 <%end%>
+                 <br>
+
+                 <%if @matching_data["skill group"].size!=0%>
+                   <h3>Skill Groups</h3>
+                   <small>These groups are selected based off of the skills required by the job.</small><br>
+                   <%@matching_data["skill group"].each do |skill, value|%>
+                     <%if value==true%>
+                       <div id="blue">
+                         <%=skill%>
+                       </div>
+                     <%else%>
+                       <div id="red">
+                         <%=skill%>
+                       </div>
+                     <%end%>
+                   <%end%>
+                 <%end%>
+                 <br>
+
+                 <%if @job_data["certification"].size!=0%>
+                   <h3>Certifications</h3>
+                     <%@job_data["certification"].each do |cert|%>
+                       <% if @matching_data["certification"][cert]==true%>
+                         <div id="blue">
+                           <%=cert%>
+                         </div>
+                       <%else%>
+                         <div id="red">
+                           <%=cert%>
+                         </div>
+                       <%end%>
+                     <%end%>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+           <div class="tabs-panel" id="ExperienceReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+                 <table>
+                   <thread>
+                     <tr>
+                       <th style="text-align: center">Score</th>
+                     </tr>
+                   </thread>
+                   <tbody>
+                     <tr>
+                       <td><%=@result_hash["experience"]%>%</td>
+                     </tr>
+                   </tbody>
+                 </table>
+
+                 <h4>Required Experience</h4>
+                  <% if @matching_data["experience"]["start"]==true %>
+                   <span id="blue">
+                     <%=@job_data["experience"]["start"]%>
+                   </span>
+                 <% else %>
+                   <span id="red">
+                     <%=@job_data["experience"]["start"]%>
+                   </span>
+                 <% end %>
+                 <% if @job_data["experience"]["end"]<100%>
+                   <% if @matching_data["experience"]["end"]==true %>
+                     <span id="blue">
+                       to <%=@job_data["experience"]["end"]%> years experience
+                     </span>
+                   <% else %>
+                     <span id="red">
+                       to <%=@job_data["experience"]["end"]%> years experience
+                     </span>
+                   <%end%>
+                 <%else%>
+                   <% if @matching_data["experience"]["end"]==true %>
+                     <span id="blue">
+                       or more years experience
+                     </span>
+                   <%else%>
+                     <span id="red">
+                       or more years
+                     </span>
+                   <%end%>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+           <div class="tabs-panel" id="EducationReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+                 <table>
+                   <thread>
+                     <tr>
+                       <th style="text-align: center">Score</th>
+                     </tr>
+                   </thread>
+                   <tbody>
+                     <tr>
+                       <td><%=@result_hash["education"]%>%</td>
+                     </tr>
+                   </tbody>
+                 </table>
+                 <h4>Required Education</h4>
+                 <%@job_data["education"].each do |edu| %>
+                   <% if @matching_data["education"][edu["level"]+edu["degree"]]==true %>
+                     <div id="blue">
+                       <%=edu["level"]%> in <%=edu["degree"]%>
+                     </div>
+                   <% else %>
+                     <div id="red">
+                       <%=edu["level"]%> in <%=edu["degree"]%>
+                     </div>
+                   <% end %>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+           <div class="tabs-panel" id="SkillReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+
+                 <table>
+                   <thread>
+                     <tr>
+                       <th style="width: 50%; text-align: center">Score</th>
+                       <%if @result_hash["estimated total"]!=false%>
+                         <th style="width: 50%; text-align: center">Grouping Score</th>
+                       <%end%>
+                     </tr>
+                   </thread>
+                   <tbody>
+                     <td><%=@result_hash["skills"]%>%</td>
+                     <%if @result_hash["estimated total"]!=false%>
+                       <td><%=@result_hash["skill group"]%>%</td>
+                     <%end%>
+                   </tbody>
+                 </table>
+
+                 <h4>Required Skills</h4>
+                 <%@job_data["skills"].each do |skill|%>
+                   <% if @matching_data["skills"][skill]==true%>
+                     <div id="blue">
+                       <%=skill%>
+                     </div>
+                   <% else %>
+                     <div id="red">
+                       <%=skill%>
+                     </div>
+                   <%end%>
+                 <%end%>
+
+                 <%if @matching_data["skill group"].size!=0%>
+                   <h3>Skill Groups</h3>
+                   <small>These groups are selected based off of the skills required by the job.</small><br>
+                   <%@matching_data["skill group"].each do |skill, value|%>
+                     <%if value==true%>
+                       <div id="blue">
+                         <%=skill%>
+                       </div>
+                     <%else%>
+                       <div id="red">
+                         <%=skill%>
+                       </div>
+                     <%end%>
+                   <%end%>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+           
+           <div class="tabs-panel" id="CertReq">
+             <div class="row align-center">
+               <div class="column small-6 text-center">
+                 <table>
+                   <thread>
+                     <tr>
+                       <th style="text-align: center">Score</th>
+                     </tr>
+                   </thread>
+                   <tbody>
+                     <tr>
+                       <td><%=@result_hash["certification"]%>%</td>
+                     </tr>
+                   </tbody>
+                 </table>
+
+                 <h4>Certifications</h4>
+                 <%@job_data["certification"].each do |cert|%>
+                   <% if @matching_data["certification"][cert]==true%>
+                     <div id="blue">
+                       <%=cert%>
+                     </div>
+                   <%else%>
+                     <div id="red">
+                       <%=cert%>
+                     </div>
+                   <%end%>
+                 <%end%>
+               </div>
+             </div>
+           </div>
+
+           <div class="row align-center">
+             <div class="column small-6 text-center">
+               <h4>Legend</h4>
+               <div id=blue>
+                 Requirement met
+               </div>
+               <div id=red>
+                 Requirement not met
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+  <%end%>
+<%end%>
+
+<div class="row align-center">
+  <div class="column small-6 text-center">
+  <% if user_signed_in? %>
+    <% if !current_user.resume_document %>
+      Upload a Resume to Apply! <%=button_to 'Upload Resume', new_resume_document_path, :class=>"button", :method=>:get %>
+    <% else %>
+      <% if @applied==false %>
+        <%= render 'job_applications/form' %>
+        <% if @job.hyperlink %>
+          or you can apply directly to the employers website at: <%=link_to @job.hyperlink, @job.hyperlink %><br>
+        <% end %>
+      <% else %>
+        You have already applied for this position.
+      <%end%>  
+    <% end %>
+  <% end %>
+  </div>
+</div>
