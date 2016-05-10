@@ -1,28 +1,39 @@
 <div class="row align-center">
   <div class="column small-6 text-center">
-    <h3> Your top 5 job matches </h3>
+    <h3> Your Top Job Matches </h3>
   </div>
 </div>
 <div class="row align-center">
   <div class="column small-12 text-center">
-<%=@industry_hash%>
-<table class="table">
-  <thread>
-    <tr>
-      <th style="text-align: center"> Position </th>
-      <th style="text-align: center"> Company </th>
-      <th style="text-align: center"> Match </th>
-    </tr>
-  </thread>
-  <tbody>
-<% @tophash.each do |top| %>
-  <tr>
-  <td style="text-align: center">  <%=link_to top[1][1].position, top[1][1], :method=>:get %> </td>
-  <td style="text-align: center"> <%= top[1][1].employer.companyName %> </td>
-  <td style="text-align: center"> <%= (top[1][0])%>% </td>
-  </tr>
-<% end %>
-  </tbody>
-</table>
+    <table class="table">
+      <thread>
+        <tr>
+          <th style="text-align: center"> Position </th>
+          <th style="text-align: center"> Company </th>
+          <th style="text-align: center"> Match </th>
+        </tr>
+      </thread>
+      <tbody>
+      <% @tophash.each do |top| %>
+        <tr>
+          <td style="text-align: center">  <%=link_to top[1][1].position, top[1][1], :method=>:get %> </td>
+          <td style="text-align: center"> <%= top[1][1].employer.companyName %> </td>
+          <td style="text-align: center"> <%= (top[1][0])%>% </td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
+
+<div class="row align-center">
+  <div class="column small-12 text-center">
+    <h3>Overall Category Match</h3>
+  </div>
+    <%if @industry_hash.size<3%>
+      <%= column_chart (@industry_hash), max:100, colors:["#01A982"], label: "Overall Position Ranking", height: "35rem", width: "25rem"%>
+    <%else%>
+      <%=column_chart (@industry_hash), max:100, colors:["#01A982"], label: "Overall Position Ranking", height: "35rem", width: "50rem"%>
+    <%end%>
+</div>
+

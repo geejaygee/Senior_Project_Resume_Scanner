@@ -1,9 +1,43 @@
-<h1> Applicants for <%= @job.position %> </h1> 
-<% if @job.job_applications.size >= 1 %>
-    <% @job.job_applications.each do |application| %>
-      <%=link_to application.user.name, resume_document_path(:id=>application.user.id,:job_id=>@job.id), :method=>:get %>
-      <br>
-      ---------------------------------------------
-      <br>
+<div class="row align-center">
+  <div class="column small-10 text-center">
+    <h2> Applicants for <%= @job.position %> </h2> 
+    <% if @job.job_applications.size >= 1 %>
+      <table class="table">
+        <thread>
+          <tr>
+            <th style="text-align: center">Applicant</th>
+          </tr>
+        </thread>
+        <tbody>
+          <% @job.job_applications.each do |application| %>
+            <tr>
+              <td style="text-align: center"> <%=link_to application.user.name, resume_document_path(:id=>application.user.id,:job_id=>@job.id), :method=>:get %> </td>
+            </tr>
+          <% end %>
+        <tbody>
+      </table>
+    <% else %>
+      <h4> No one has applied for this position yet. </h4>
     <% end %>
-<% end %>
+    <h2>Possible Candidates</h2>
+    <%if @tophash.size >=1%>
+      <table class="table">
+        <thread>
+          <tr>
+            <th style="text-align: center">Individual</th>
+            <th style="text-align: center">Match</th>
+          </tr>
+        </thread>
+        <tbody>
+          <%@tophash.each do |candidate, value|%>
+            <tr>
+              <td style="text-align: center"><%=link_to value[0].name, resume_document_path(:id=>value[0].id, :job_id=>@job.id), :method=>:get%></td>
+              <td style="text-align: center"> <%=value[1]%>%</td>
+            </tr>
+          <%end%>
+        </tbody>
+      </table>
+    <%end%>
+
+  </div>
+</div>

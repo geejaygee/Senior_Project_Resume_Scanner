@@ -8,8 +8,6 @@
   <% if !@resume_hash %>
     Still analyzing document.  Try back again in 10 seconds.
   <% else %>
-  <%=@resume_hash%>
-  <br>
   <ul class="tabs" data-tabs id="resume-tabs">
     <li class="tabs-title is-active"><a href="#ResumePanel"><%=@user.name%>'s Resume</a></li>
     <li class="tabs-title"><a href="#StatPanel"><%=@user.name%>'s Statistics</a></li>
@@ -56,7 +54,11 @@
                   Level: <%=edu["level"]%><br>
                   Degree: <%=edu["degree"]%><br>
                   Type: <%=edu["type"]%><br>
-                  Time since graduation: <%=edu["time"]%><br>
+                  <%if edu["time"]<0%>
+                    Time until graduation: <%=(edu["time"]/30).round(2)%> months<br>
+                  <%else%>
+                    Time since graduation: <%=(edu["time"]/365).round(2)%> years<br>
+                  <%end%>
                   <br>
                 <% end %>
                 <h3>Skills</h3>

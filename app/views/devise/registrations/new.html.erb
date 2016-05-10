@@ -11,7 +11,7 @@
     <div class="small-8 columns">
       <div class="field">
         <%= f.label :name %><br />
-        <%= f.text_field :name, :placeholder=>"Name" %>
+        <%= f.text_field :name, :placeholder=>"Name", :required=>'required' %>
       </div>
     </div>
   </div>
@@ -20,7 +20,7 @@
     <div class="small-8 columns">
       <div class="field">
         <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, :placeholder=>"email@email.com" %>
+        <%= f.email_field :email, autofocus: true, :placeholder=>"email@email.com", :required=>'required' %>
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@
         <% if @minimum_password_length %>
           <em>(<%= @minimum_password_length %> characters minimum)</em>
         <% end %><br />
-        <%= f.password_field :password, autocomplete: "off", :placeholder=>"password" %>
+        <%= f.password_field :password, autocomplete: "off", :placeholder=>"password", :required=>'required' %>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
     <div class="small-8 columns">
       <div class="field">
         <%= f.label :password_confirmation %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "off", :placeholder=>"password" %>
+        <%= f.password_field :password_confirmation, autocomplete: "off", :placeholder=>"repeat password", :required=>'required' %>
       </div>
     </div>
   </div>

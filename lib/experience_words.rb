@@ -31,12 +31,23 @@ end
 def jobs
 {"technology"=>{"Software Engineer"=>/(?i)(SOFTWARE ENGINEER)/,
                 "Computer Repair"=>/(?i)(COMPUTER REPAIR)/,
-                 "Technician"=>/(?i)(TECHNICIAN)/},
+                 "Computer Technician"=>/(?i)(Computer (\b\w+\b\s?){,3} TECHNICIAN)/,
+                 "Programmer"=>/(?i)(Programmer)/,
+                 "Software Developer"=>/(?i)(SOFTWARE DEVELOPER)/,
+                 "Computer Systems Analyst"=>/(?i)(COMPUTER SYSTEMS ANALYST)/,
+                 "Web Developer"=>/(?i)(WEB DEVELOPER)/,
+                 "Information Security Analyst"=>/(?i)(INFORMATION SECURITY ANALYST)/,
+                 "Database Administrator"=>/(?i)(DATABASE ADMINISTRATOR)/,
+                 "Computer Support Specialist"=>/(?i)(COMPUTER SUPPORT SPECIALIST")/,
+                 "Computer Systems Administrator"=>/(?i)(COMPUTER SYSTEMS ADMINISTRATOR)/},
 "customer service"=>{"Cashier"=>/(?i)(CASHIER)/,
                      "Customer Service Representative"=>/(?i)(CUSTOMER SERVICE REPRESENTATIVE)/,
                      "Sales"=>/(?i)(SALES)/},
-"Temporary"=>{"Intern"=>/(?i)(INTERN)/,
-              "Volunteeer"=>/(?i)(VOLUNTEER)/}
+"business"=>{"Accounting"=>/(?i)(Accounting)|(Accountant)/,
+             "Management"=>/(?i)(Management)|(Manager)/,
+             "Financial"=>/(?i)(Finance)/},
+"Temporary"=>{"Intern"=>/(?i)(\bINTERN\b)/,
+              "Volunteer"=>/(?i)(VOLUNTEER)/}
 }
 end
 

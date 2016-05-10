@@ -11,7 +11,7 @@
   <% end %>
   <div class="field">
     <%= f.label 'Position Name' %><br>
-    <%= f.text_field :position, :placeholder=>"Position" %>
+    <%= f.text_field :position, :placeholder=>"Position", :required=>'required' %>
   </div>
   <div class="field">
     <%= f.label 'Description (optional)' %><br>
@@ -23,12 +23,12 @@
   </div>
   <div class="field">
     <%= f.label 'Upload Job'%><br>
-    <%= f.file_field :attachment %>
+    <%= f.file_field :attachment, :required=>'required' %>
   </div>
   <div class="field">
-    <%= f.radio_button :job_type, 'Full-Time' %>Full-Time
-    <%= f.radio_button :job_type, 'Part-Time' %>Part-Time
-    <%= f.radio_button :job_type, 'Internship' %>Internship
+    <%= f.radio_button :job_type, 'Full-Time', :required=>'required' %>Full-Time
+    <%= f.radio_button :job_type, 'Part-Time', :required=>'required'  %>Part-Time
+    <%= f.radio_button :job_type, 'Internship', :required=>'required' %>Internship
   </div>   
   <div class="field">
     <%= f.submit 'Post Job', :class=>"button"%>

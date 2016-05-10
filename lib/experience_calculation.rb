@@ -57,17 +57,20 @@ end
 
 def job_industry(position, job_text)
   flag=false
-  industry=String.new
-  industry="other"
+  industry=Hash.new
+  industry={"industry"=>"other",
+            "position"=>"other"}
   jobs.each do |key, hash|
     if flag==false
       hash.each do |key2, regex|
         if (position=~regex)
-          industry=key
+          industry["industry"]=key
+          industry["position"]=key2
           flag=true
         end
         if job_text.match(regex)
-          industry=key
+          industry["industry"]=key
+          industry["position"]=key2
           flag=true
         end
       end
@@ -95,6 +98,9 @@ def experience_calc_job (job_text)
         end
       end
     end
+  end
+  if ((experience_hash["start"]==0) && (experience_hash["end"]==0))
+    experience_hash=Hash.new
   end
   return experience_hash
 end
@@ -282,15 +288,15 @@ def education_req (job_text, position)
                     if ((work_experience=position.scan(job_hash_regex)).size!=0)
                       myhash=Hash.new
                       myhash["level"]="industry"
-                      myhash["degree"]=job_key
-                      myhash["type"]="industry"
+                      myhash["degree"]=job_hash_key
+                      myhash["type"]=job_key
                       match=true
                       myarray.push(myhash)
                     else
                       myhash=Hash.new
                       myhash["level"]="industry"
                       myhash["degree"]="any"
-                      myhash["type"]="industry"
+                      myhash["type"]="any"
                       match=true
                       myarray.push(myhash) 
                     end 

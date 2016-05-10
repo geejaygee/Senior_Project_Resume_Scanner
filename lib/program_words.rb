@@ -36,7 +36,9 @@ def programing_words
 "watcom-sql"=>/\b(?i)(WATCOM\-SQL)\b/,
 "sap-hana"=>/\b(?i)SAP HANA\b/,
 "xml"=>/\b(?i)XML\b/,
-"silktest"=>/\b(?i)SILKTEST\b/
+"silktest"=>/\b(?i)SILKTEST\b/,
+"amazon web services"=>/\b(?i)(AWS)|(AMAZON WEB SERVICE(S)?)/,
+"spring"=>/\b(?i)(SPRING)/
 }
 end
 

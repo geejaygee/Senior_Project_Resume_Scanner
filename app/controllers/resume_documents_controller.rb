@@ -17,10 +17,10 @@ class ResumeDocumentsController < ApplicationController
   
   def employer_show_view
     @user=User.find(params[:id])
-    @resume_hash=JSON.parse(IO.read("#{Rails.root}/#{@user.resume_document.datafile}"))
+    @resume_data=JSON.parse(IO.read("#{Rails.root}/#{@user.resume_document.datafile}"))
     @job=Job.find(params[:job_id])
     @job_data=JSON.parse(IO.read("#{Rails.root}/#{@job.datafile}"))
-    @matching_data=matching(@job_data, @resume_hash)
+    @matching_data=matching(@job_data, @resume_data)
     @result_hash=compare(@matching_data)
   end
 

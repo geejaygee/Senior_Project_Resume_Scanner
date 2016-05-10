@@ -45,10 +45,10 @@ class JobsController < ApplicationController
         if @job_data=JSON.parse(IO.read("#{Rails.root}/#{job.datafile}"))
           @matching_data=matching(@job_data, @resume_data)
           @result_hash=compare(@matching_data)
-          if @industry_hash[@job_data["industry"]]          
-            @industry_hash[@job_data["industry"]]=((@industry_hash[@job_data["industry"]]+ @result_hash["total"])/2)
+          if @industry_hash[@job_data["industry"]["position"]]          
+            @industry_hash[@job_data["industry"]["position"]]=((@industry_hash[@job_data["industry"]["position"]]+ @result_hash["total"])/2)
           else
-            @industry_hash[@job_data["industry"]]=@result_hash["total"]
+            @industry_hash[@job_data["industry"]["position"]]=@result_hash["total"]
           end
           @tophash[@jobs.index(job)]=[@result_hash["total"], job]
         end
@@ -69,6 +69,21 @@ class JobsController < ApplicationController
   end
 
   def applicants
+    @tophash=Hash.new()
+    @job_data=JSON.parse(IO.read("#{Rails.root}/#{@job.datafile}"))
+    @users=User.all
+    @users.each do |user|
+      if !@job.job_applications.exists?(:user_id=>user.id)
+        if @resume_data=JSON.parse(IO.read("#{Rails.root}/#{user.resume_document.datafile}"))
+          @matching_data=matching(@job_data, @resume_data)
+          @result_hash=compare(@matching_data)
+          @tophash[@users.index(user)]=[user, @result_hash["total"]]
+        end
+      end
+    end
+    @tophash=@tophash.sort_by {|key, value| value[0]}.reverse
+    @tophash=@tophash[0,10]
+
   end
 
   def new

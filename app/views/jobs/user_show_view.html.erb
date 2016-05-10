@@ -1,6 +1,3 @@
-Job: <%=@job%>
-<br>
-Job ID:<%=@job.id%>
 <% if !@job %>
   <div class="row align-center">
     <div class="column small-6 text-center">
@@ -19,17 +16,7 @@ Job ID:<%=@job.id%>
       <div class="column small-6 text-center">
         <h2><%= @job.position %></h2>
         <h3><i><%=@employer.companyName %></i></h3>
-RESUME HASH:<%=@resume_data%>
-<br>
-<br>
-JOB HASH:<%=@job_data%>
-<br>
-<br>
-Matching:<%=@matching_data%>
-<br>
-<br>
-SCORE: <%=@result_hash%>
-<br>
+        <h5><%=@job.job_type%></h5>
       </div>
     </div>
     <ul class="tabs" data-tabs id="job-tabs">
@@ -39,10 +26,18 @@ SCORE: <%=@result_hash%>
 
      <div class="tabs-content" data-tabs-content="job-tabs">
        <div class="tabs-panel is-active" id="DocPanel">
-         <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
+         <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}, async="true") %>
          <div class="row align-center">
            <div class="column small-10 text-center">
-             <iframe srcdoc="<%=r.json%>" width="900" height="1000" style="border-style: solid; border-width: 10px; border-color:#425563;"></iframe>
+             <%if !@job.description.empty?%>
+               <h4>Description</h4>
+               <%=@job.description%>
+               <br>
+               <br>
+             <%end%>
+             <h4>Document</h4>
+            <%doc_result=r.result().json%>
+             <iframe srcdoc="<%=doc_result["actions"][0]["result"]%>" width="900" height="1000" style="border-style: solid; border-width: 10px; border-color:#425563;"></iframe>
            </div>
          </div>
        </div>

@@ -90,9 +90,17 @@ def compare (matching_data)
      result_hash["estimated total"]=false
   end
   if matching_data["certification"].size!=0
-    result_hash["total"]=(((result_hash["experience"].to_f)+(result_hash["education"].to_f)+(result_hash["skills"].to_f)+(result_hash["certification"].to_f))/total_division).round
+    if matching_data["skills"].size!=0
+      result_hash["total"]=(((result_hash["experience"].to_f)+(result_hash["education"].to_f)+(result_hash["skills"].to_f)+(result_hash["certification"].to_f))/total_division).round
+    else
+      result_hash["total"]=(((result_hash["experience"].to_f)+(result_hash["education"].to_f)+(result_hash["certification"].to_f))/total_division).round
+    end
   else
-    result_hash["total"]=(((result_hash["experience"].to_f)+(result_hash["education"].to_f)+(result_hash["skills"].to_f))/total_division).round
+    if matching_data["skills"].size!=0
+      result_hash["total"]=(((result_hash["experience"].to_f)+(result_hash["education"].to_f)+(result_hash["skills"].to_f))/total_division).round
+    else
+       result_hash["total"]=(((result_hash["experience"].to_f)+(result_hash["education"].to_f))/total_division).round
+    end
   end
   return result_hash
 end
@@ -108,15 +116,17 @@ def matching(job_data, resume_data)
   matching_data["skill group"]=Hash.new
   resume_data["experience"].each do |exp|
     if job_data["experience"]["start"]<=exp["experience"]
-      if job_data["industry"]==exp["industry"]
+      if job_data["industry"]["industry"]==exp["industry"]
         matching_data["experience"]["start"]=true
       end
     end
     if job_data["experience"]["end"]
       if job_data["experience"]["end"]>=exp["experience"]
-        if job_data["industry"]==exp["industry"]
+        if job_data["industry"]["industry"]==exp["industry"]
           matching_data["experience"]["end"]=true
         end
+      elsif job_data["experience"]["end"]==0
+        matching_data["experience"]["end"]=true
       end
     end
   end
@@ -136,6 +146,19 @@ def matching(job_data, resume_data)
         if job_edu["type"]==res_edu["type"]
           matching_data["education"][job_edu["level"]+job_edu["degree"]]=true
         end
+      elsif job_edu["level"]=="industry"
+        resume_data["experience"].each do |res_exp|
+          if job_edu["type"]=="any"
+            if res_exp["experience"]>=2
+              matching_data["education"][job_edu["level"]+job_edu["degree"]]=true
+            end
+          elsif res_exp["industry"]==job_edu["type"]
+            if res_exp["experience"]>=2
+              matching_data["education"][job_edu["level"]+job_edu["degree"]]=true  
+            end
+          end
+          break if matching_data["education"][job_edu["level"]+job_edu["degree"]]==true
+        end        
       end
       break if matching_data["education"][job_edu["degree"]]==true
     end

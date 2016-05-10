@@ -16,6 +16,7 @@
       <div class="column small-6 text-center">
         <h2><%= @job.position %></h2>
         <h3><i><%=@employer.companyName %></i></h3>
+        <h5><%=@job.job_type%></h5>
       </div>
     </div>
     <ul class="tabs" data-tabs id="job-tabs">
@@ -28,6 +29,12 @@
          <% r=$client.post('viewdocument', {:mode=> 'document', :file=>open('public' + @job.attachment_url,'r')}) %>
          <div class="row align-center">
            <div class="column small-10 text-center">
+             <%if @job.description%>
+               <h4>Description</h4>
+               <%=@job.description%>
+               <br>
+               <br>
+             <%end%>
              <iframe srcdoc="<%=r.json%>" width="900" height="1000" style="border-style: solid; border-width: 10px; border-color:#425563;"></iframe>
            </div>
          </div>
